@@ -22,7 +22,7 @@ namespace WebChat
             routes.MapRoute(
                 "Authentication",
                 "Authentication/{action}/{id}",
-                defaults: new { controller = "Authentication", action = "Login ", id = UrlParameter.Optional }
+                defaults: new { controller = "Authentication", action = "Form", id = UrlParameter.Optional }
             );
         }
     }

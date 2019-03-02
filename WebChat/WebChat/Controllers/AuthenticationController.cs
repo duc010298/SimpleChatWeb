@@ -12,9 +12,9 @@ namespace WebChat.Controllers
     public class AuthenticationController : Controller
     {
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Form()
         {
-            var userInfo = new LoginModel();
+            var authenticationInfo = new AuthenticationModel();
             try
             {
                 // If authenticated, go to index
@@ -22,7 +22,7 @@ namespace WebChat.Controllers
                 {
                     return RedirectToAction("Index", "WebChat");
                 }
-                return View(userInfo);
+                return View(authenticationInfo);
             }
             catch
             {
@@ -42,7 +42,7 @@ namespace WebChat.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel entity)
+        public ActionResult Login(AuthenticationModel entity)
         {
             string encrypt_password = string.Empty;
             try
@@ -52,18 +52,18 @@ namespace WebChat.Controllers
                     // Ensure we have a valid viewModel to work with
                     if (!ModelState.IsValid)
                     {
-                        return View(entity);
+                        return View("Form", entity);
                     }
 
                     //Retrive Stored Encrypt Password From Database According To Username (one unique field)
-                    var userInfo = db.app_user.Where(s => s.username == entity.Username.Trim()).FirstOrDefault();
+                    var userInfo = db.app_user.Where(s => s.username == entity.Login.Username.Trim()).FirstOrDefault();
 
                     //Verify password
                     bool isLogin;
                     if (userInfo != null)
                     {
                         encrypt_password = userInfo.encrypted_password;
-                        isLogin = BCrypt.Net.BCrypt.Verify(entity.Password, encrypt_password);
+                        isLogin = BCrypt.Net.BCrypt.Verify(entity.Login.Password, encrypt_password);
                     }
                     else
                     {
@@ -75,7 +75,7 @@ namespace WebChat.Controllers
                     {
                         //Login Success
                         //For Set Authentication in Cookie (Remeber ME Option)
-                        SignInRemember(entity.Username, entity.IsRemember);
+                        SignInRemember(entity.Login.Username, entity.Login.IsRemember);
 
                         //Set A Unique ID in session
                         Session["UserID"] = userInfo.app_user_id;
@@ -87,7 +87,7 @@ namespace WebChat.Controllers
                     {
                         //Login Fail
                         TempData["ErrorMSG"] = "Thông tin đăng nhập không đúng";
-                        return View(entity);
+                        return View("Form", entity);
                     }
                 }
             }
@@ -121,6 +121,18 @@ namespace WebChat.Controllers
             {
                 throw;
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(AuthenticationModel entity)
+        {
+            // Ensure we have a valid viewModel to work with
+            if (!ModelState.IsValid)
+            {
+                return View("Form", entity);
+            }
+            return View("Form", entity);
         }
     }
 }

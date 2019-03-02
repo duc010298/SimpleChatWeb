@@ -134,6 +134,7 @@
     <Compile Include="Models\app_user.cs">
       <DependentUpon>WebChatModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthenticationModel.cs" />
     <Compile Include="Models\CheckAuthorization.cs" />
     <Compile Include="Models\customer.cs">
       <DependentUpon>WebChatModel.tt</DependentUpon>
@@ -145,6 +146,7 @@
     <Compile Include="Models\notify.cs">
       <DependentUpon>WebChatModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\relationship.cs">
       <DependentUpon>WebChatModel.tt</DependentUpon>
     </Compile>
@@ -179,7 +181,7 @@
     </Content>
     <None Include="packages.config" />
     <Content Include="Views\WebChat\Index.cshtml" />
-    <Content Include="Views\Authentication\Login.cshtml" />
+    <Content Include="Views\Authentication\Form.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

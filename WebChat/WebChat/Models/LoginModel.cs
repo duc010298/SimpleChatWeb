@@ -8,6 +8,7 @@ namespace WebChat.Models
 {
     public class LoginModel
     {
+        //Prop for login
         [Required(ErrorMessage = "Không được để trống tên đăng nhập")]
         public string Username { get; set; }
         [Required(ErrorMessage = "Không được để trống mật khẩu")]
