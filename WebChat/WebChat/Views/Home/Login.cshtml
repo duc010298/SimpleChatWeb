@@ -1,0 +1,118 @@
+﻿@model WebChat.Models.LoginModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/loginRegister.css")">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="login-wrap">
+        <div class="login-html">
+            <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">
+                Đăng
+                nhập
+            </label>
+            <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Đăng kí</label>
+            <div class="login-form">
+                @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                <div class="sign-in-htm">
+                    <div class="group">
+                        <label for="user" class="label">Tên đăng nhập</label>
+                        @Html.TextBoxFor(s => s.Username, new { @id = "user", @class = "input" })
+                        @Html.ValidationMessageFor(s => s.Username, "", new { @class = "noti-error" })
+                    </div>
+                    <div class="group">
+                        <label for="pass" class="label">Mật khẩu</label>
+                        @Html.PasswordFor(s => s.Password, new { @id = "pass", @class = "input" })
+                        @Html.ValidationMessageFor(s => s.Password, "", new { @class = "noti-error" })
+                    </div>
+                    <div class="group">
+                        @Html.CheckBoxFor(s => s.IsRemember, new { @id = "check" })
+                        <label for="check"><span class="icon"></span> Nhớ đăng nhập</label>
+                    </div>
+                    @if (TempData["ErrorMSG"] != null)
+                    {
+                        <label class="noti"> @TempData["ErrorMSG"] </label>
+                        <br />
+                    }
+                    <div class="group">
+                        <input type="submit" class="button" value="Đăng nhập">
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <a href="#forgot">Quên mật khẩu</a>
+                    </div>
+                </div>
+                }
+                <div class="sign-up-htm">
+                    <div class="group">
+                        <label for="user2" class="label">Tên đăng nhập</label>
+                        <input id="user2" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="pass2" class="label">Mật khẩu</label>
+                        <input id="pass2" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <label for="repass" class="label">Nhập lại mật khẩu</label>
+                        <input id="repass" type="password" class="input" data-type="password">
+                    </div>
+                    <div class="group">
+                        <label for="email" class="label">Email</label>
+                        <input id="email" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="fullname" class="label">Họ và tên</label>
+                        <input id="fullname" type="text" class="input">
+                    </div>
+                    <div class="group">
+                        <label for="birth" class="label">Ngày sinh</label>
+                        <input id="birth" type="text" class="input" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="group">
+                        <label for="birth" class="label">Giới tính</label>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="optradio">Nam
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="optradio">Nữ
+                            </label>
+                        </div>
+                    </div>
+                    <div class="group">
+                        <input type="submit" class="button" value="Đăng kí">
+                    </div>
+                    <div class="hr"></div>
+                    <div class="foot-lnk">
+                        <label for="tab-1">Đã là thành viên?</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/cleave.min.js")"></script>
+    <script>
+        new Cleave('#birth', {
+            date: true,
+            datePattern: ['d', 'm', 'Y']
+        });
+    </script>
+</body>
+</html>
