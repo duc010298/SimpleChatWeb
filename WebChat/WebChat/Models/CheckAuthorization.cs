@@ -24,9 +24,7 @@ namespace WebChat.Models
             }
             else
             {
-
                 //Code HERE for page level authorization
-
             }
         }
     }

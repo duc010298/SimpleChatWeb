@@ -16,13 +16,13 @@ namespace WebChat
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "WebChat", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(
-                "Home",
-                "Home/{action}/{id}",
-                defaults: new { controller = "Home", action = "Login ", id = UrlParameter.Optional }
+                "Authentication",
+                "Authentication/{action}/{id}",
+                defaults: new { controller = "Authentication", action = "Login ", id = UrlParameter.Optional }
             );
         }
     }

@@ -9,23 +9,19 @@ using WebChat.Models;
 
 namespace WebChat.Controllers
 {
-    public class HomeController : Controller
+    public class AuthenticationController : Controller
     {
-        [HttpGet]
-        [CheckAuthorization]
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         public ActionResult Login()
         {
             var userInfo = new LoginModel();
             try
             {
-                // We do not want to use any existing identity information
-                EnsureLoggedOut();
+                // If authenticated, go to index
+                if (Request.IsAuthenticated)
+                {
+                    return RedirectToAction("Index", "WebChat");
+                }
                 return View(userInfo);
             }
             catch
@@ -34,13 +30,7 @@ namespace WebChat.Controllers
             }
         }
 
-        private void EnsureLoggedOut()
-        {
-            // If the request is (still) marked as authenticated we send the user to the logout action
-            if (Request.IsAuthenticated)
-                Logout();
-        }
-
+        [NonAction]
         private void SignInRemember(string userName, bool isPersistent = false)
         {
             // Clear any lingering authencation data
@@ -48,33 +38,6 @@ namespace WebChat.Controllers
 
             // Write the authentication cookie
             FormsAuthentication.SetAuthCookie(userName, isPersistent);
-        }
-
-        //POST: Logout
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Logout()
-        {
-            try
-            {
-                // First we clean the authentication ticket like always
-                //required NameSpace: using System.Web.Security;
-                FormsAuthentication.SignOut();
-
-                // Second we clear the principal to ensure the user does not retain any authentication
-                //required NameSpace: using System.Security.Principal;
-                HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
-
-                Session.Clear();
-                System.Web.HttpContext.Current.Session.RemoveAll();
-
-                //Redirect to Index function
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                throw;
-            }
         }
 
         [HttpPost]
@@ -88,12 +51,14 @@ namespace WebChat.Controllers
                 {
                     // Ensure we have a valid viewModel to work with
                     if (!ModelState.IsValid)
+                    {
                         return View(entity);
+                    }
 
-                    //Retrive Stored HASH Value From Database According To Username (one unique field)
+                    //Retrive Stored Encrypt Password From Database According To Username (one unique field)
                     var userInfo = db.app_user.Where(s => s.username == entity.Username.Trim()).FirstOrDefault();
 
-                    //Assign HASH Value
+                    //Verify password
                     bool isLogin;
                     if (userInfo != null)
                     {
@@ -115,8 +80,8 @@ namespace WebChat.Controllers
                         //Set A Unique ID in session
                         Session["UserID"] = userInfo.app_user_id;
 
-                        //Redirect to Index function
-                        return RedirectToAction("Index");
+                        //Redirect to Index
+                        return RedirectToAction("Index", "WebChat");
                     }
                     else
                     {
@@ -130,7 +95,32 @@ namespace WebChat.Controllers
             {
                 throw;
             }
+        }
 
+        //GET: Logout
+        [HttpGet]
+        public ActionResult Logout()
+        {
+            try
+            {
+                // First we clean the authentication ticket like always
+                //required NameSpace: using System.Web.Security;
+                FormsAuthentication.SignOut();
+
+                // Second we clear the principal to ensure the user does not retain any authentication
+                //required NameSpace: using System.Security.Principal;
+                HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+
+                Session.Clear();
+                System.Web.HttpContext.Current.Session.RemoveAll();
+
+                //Redirect to index
+                return RedirectToAction("Index", "WebChat");
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }
