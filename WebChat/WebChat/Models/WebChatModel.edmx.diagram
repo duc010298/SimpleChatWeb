@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e0cbd5db7c284e6b9bf45bd247ac39f3" Name="Diagram1">
+      <Diagram DiagramId="806c0350299448e19ade980ee01d3afe" Name="Diagram1">
         <EntityTypeShape EntityType="WebChatModel.app_role" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="WebChatModel.app_user" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
         <EntityTypeShape EntityType="WebChatModel.customer" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
@@ -12,12 +12,12 @@
         <EntityTypeShape EntityType="WebChatModel.notify" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="WebChatModel.relationship" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
         <EntityTypeShape EntityType="WebChatModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <AssociationConnector Association="WebChatModel.FK__customer__app_us__145C0A3F" ManuallyRouted="false" />
-        <AssociationConnector Association="WebChatModel.FK__message__cus_rec__22AA2996" ManuallyRouted="false" />
-        <AssociationConnector Association="WebChatModel.FK__message__cus_sen__21B6055D" ManuallyRouted="false" />
-        <AssociationConnector Association="WebChatModel.FK__notify__cus_id__276EDEB3" ManuallyRouted="false" />
-        <AssociationConnector Association="WebChatModel.FK__relations__cus1___1BFD2C07" ManuallyRouted="false" />
-        <AssociationConnector Association="WebChatModel.FK__relations__cus2___1CF15040" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__customer__app_us__15502E78" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__message__cus_rec__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__message__cus_sen__24927208" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__notify__cus_id__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__relations__cus1___1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__relations__cus2___1ED998B2" ManuallyRouted="false" />
         <AssociationConnector Association="WebChatModel.user_role" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>

@@ -24,7 +24,7 @@ namespace WebChat.Models
             this.relationships1 = new HashSet<relationship>();
         }
     
-        public string app_user_id { get; set; }
+        public System.Guid app_user_id { get; set; }
         public string avatar { get; set; }
         public string fullname { get; set; }
         public bool status_online { get; set; }

@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WebChatModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="app_role">
+    <Key>
+      <PropertyRef Name="role_id" />
+    </Key>
+    <Property Name="role_id" Type="Int64" Nullable="false" />
+    <Property Name="role_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="app_user" Relationship="Self.user_role" FromRole="app_role" ToRole="app_user" />
+  </EntityType>
+  <EntityType Name="app_user">
+    <Key>
+      <PropertyRef Name="app_user_id" />
+    </Key>
+    <Property Name="app_user_id" Type="Guid" Nullable="false" />
+    <Property Name="username" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="encrypted_password" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="customer" Relationship="Self.FK__customer__app_us__15502E78" FromRole="app_user" ToRole="customer" />
+    <NavigationProperty Name="app_role" Relationship="Self.user_role" FromRole="app_user" ToRole="app_role" />
+  </EntityType>
+  <EntityType Name="customer">
+    <Key>
+      <PropertyRef Name="app_user_id" />
+    </Key>
+    <Property Name="app_user_id" Type="Guid" Nullable="false" />
+    <Property Name="avatar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="fullname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="status_online" Type="Boolean" Nullable="false" />
+    <Property Name="last_online" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <Property Name="email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="phone" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="gender" Type="Boolean" Nullable="false" />
+    <Property Name="birth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="city" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="customer_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="app_user" Relationship="Self.FK__customer__app_us__15502E78" FromRole="customer" ToRole="app_user" />
+    <NavigationProperty Name="messages" Relationship="Self.FK__message__cus_rec__25869641" FromRole="customer" ToRole="message" />
+    <NavigationProperty Name="messages1" Relationship="Self.FK__message__cus_sen__24927208" FromRole="customer" ToRole="message" />
+    <NavigationProperty Name="notifies" Relationship="Self.FK__notify__cus_id__2B3F6F97" FromRole="customer" ToRole="notify" />
+    <NavigationProperty Name="relationships" Relationship="Self.FK__relations__cus1___1DE57479" FromRole="customer" ToRole="relationship" />
+    <NavigationProperty Name="relationships1" Relationship="Self.FK__relations__cus2___1ED998B2" FromRole="customer" ToRole="relationship" />
+  </EntityType>
+  <EntityType Name="message">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Guid" Nullable="false" />
+    <Property Name="cus_send_id" Type="Guid" Nullable="false" />
+    <Property Name="cus_receive_id" Type="Guid" Nullable="false" />
+    <Property Name="message1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="send_time" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <Property Name="message_status" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="customer" Relationship="Self.FK__message__cus_rec__25869641" FromRole="message" ToRole="customer" />
+    <NavigationProperty Name="customer1" Relationship="Self.FK__message__cus_sen__24927208" FromRole="message" ToRole="customer" />
+  </EntityType>
+  <EntityType Name="notify">
+    <Key>
+      <PropertyRef Name="notify_id" />
+    </Key>
+    <Property Name="notify_id" Type="Guid" Nullable="false" />
+    <Property Name="cus_id" Type="Guid" Nullable="false" />
+    <Property Name="date_create" Type="DateTimeOffset" Nullable="false" Precision="7" />
+    <Property Name="notify_content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="customer" Relationship="Self.FK__notify__cus_id__2B3F6F97" FromRole="notify" ToRole="customer" />
+  </EntityType>
+  <EntityType Name="relationship">
+    <Key>
+      <PropertyRef Name="relationship_id" />
+    </Key>
+    <Property Name="relationship_id" Type="Guid" Nullable="false" />
+    <Property Name="cus1_id" Type="Guid" Nullable="false" />
+    <Property Name="cus2_id" Type="Guid" Nullable="false" />
+    <Property Name="relationship_status" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="customer" Relationship="Self.FK__relations__cus1___1DE57479" FromRole="relationship" ToRole="customer" />
+    <NavigationProperty Name="customer1" Relationship="Self.FK__relations__cus2___1ED998B2" FromRole="relationship" ToRole="customer" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK__customer__app_us__15502E78">
+    <End Role="app_user" Type="Self.app_user" Multiplicity="1" />
+    <End Role="customer" Type="Self.customer" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="app_user">
+        <PropertyRef Name="app_user_id" />
+      </Principal>
+      <Dependent Role="customer">
+        <PropertyRef Name="app_user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__message__cus_rec__25869641">
+    <End Role="customer" Type="Self.customer" Multiplicity="1" />
+    <End Role="message" Type="Self.message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customer">
+        <PropertyRef Name="app_user_id" />
+      </Principal>
+      <Dependent Role="message">
+        <PropertyRef Name="cus_receive_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__message__cus_sen__24927208">
+    <End Role="customer" Type="Self.customer" Multiplicity="1" />
+    <End Role="message" Type="Self.message" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customer">
+        <PropertyRef Name="app_user_id" />
+      </Principal>
+      <Dependent Role="message">
+        <PropertyRef Name="cus_send_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__notify__cus_id__2B3F6F97">
+    <End Role="customer" Type="Self.customer" Multiplicity="1" />
+    <End Role="notify" Type="Self.notify" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customer">
+        <PropertyRef Name="app_user_id" />
+      </Principal>
+      <Dependent Role="notify">
+        <PropertyRef Name="cus_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__relations__cus1___1DE57479">
+    <End Role="customer" Type="Self.customer" Multiplicity="1" />
+    <End Role="relationship" Type="Self.relationship" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customer">
+        <PropertyRef Name="app_user_id" />
+      </Principal>
+      <Dependent Role="relationship">
+        <PropertyRef Name="cus1_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__relations__cus2___1ED998B2">
+    <End Role="customer" Type="Self.customer" Multiplicity="1" />
+    <End Role="relationship" Type="Self.relationship" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customer">
+        <PropertyRef Name="app_user_id" />
+      </Principal>
+      <Dependent Role="relationship">
+        <PropertyRef Name="cus2_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="user_role">
+    <End Role="app_user" Type="Self.app_user" Multiplicity="*" />
+    <End Role="app_role" Type="Self.app_role" Multiplicity="*" />
+  </Association>
+  <EntityContainer Name="WebChatEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="app_role" EntityType="Self.app_role" />
+    <EntitySet Name="app_user" EntityType="Self.app_user" />
+    <EntitySet Name="customers" EntityType="Self.customer" />
+    <EntitySet Name="messages" EntityType="Self.message" />
+    <EntitySet Name="notifies" EntityType="Self.notify" />
+    <EntitySet Name="relationships" EntityType="Self.relationship" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <AssociationSet Name="FK__customer__app_us__15502E78" Association="Self.FK__customer__app_us__15502E78">
+      <End Role="app_user" EntitySet="app_user" />
+      <End Role="customer" EntitySet="customers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__message__cus_rec__25869641" Association="Self.FK__message__cus_rec__25869641">
+      <End Role="customer" EntitySet="customers" />
+      <End Role="message" EntitySet="messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK__message__cus_sen__24927208" Association="Self.FK__message__cus_sen__24927208">
+      <End Role="customer" EntitySet="customers" />
+      <End Role="message" EntitySet="messages" />
+    </AssociationSet>
+    <AssociationSet Name="FK__notify__cus_id__2B3F6F97" Association="Self.FK__notify__cus_id__2B3F6F97">
+      <End Role="customer" EntitySet="customers" />
+      <End Role="notify" EntitySet="notifies" />
+    </AssociationSet>
+    <AssociationSet Name="FK__relations__cus1___1DE57479" Association="Self.FK__relations__cus1___1DE57479">
+      <End Role="customer" EntitySet="customers" />
+      <End Role="relationship" EntitySet="relationships" />
+    </AssociationSet>
+    <AssociationSet Name="FK__relations__cus2___1ED998B2" Association="Self.FK__relations__cus2___1ED998B2">
+      <End Role="customer" EntitySet="customers" />
+      <End Role="relationship" EntitySet="relationships" />
+    </AssociationSet>
+    <AssociationSet Name="user_role" Association="Self.user_role">
+      <End Role="app_user" EntitySet="app_user" />
+      <End Role="app_role" EntitySet="app_role" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -14,8 +14,8 @@ namespace WebChat.Models
     
     public partial class notify
     {
-        public string notify_id { get; set; }
-        public string cus_id { get; set; }
+        public System.Guid notify_id { get; set; }
+        public System.Guid cus_id { get; set; }
         public System.DateTimeOffset date_create { get; set; }
         public string notify_content { get; set; }
     

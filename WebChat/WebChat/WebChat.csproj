@@ -7,7 +7,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6B41BFA1-9049-419C-BFD4-37D3CAA4B6A4}</ProjectGuid>
+    <ProjectGuid>{D0D3C32F-F64C-4668-8E6B-D12995C01E51}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -180,8 +180,8 @@
       <DependentUpon>WebChatModel.edmx</DependentUpon>
     </Content>
     <None Include="packages.config" />
-    <Content Include="Views\WebChat\Index.cshtml" />
     <Content Include="Views\Authentication\Form.cshtml" />
+    <Content Include="Views\WebChat\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -208,9 +208,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>55017</DevelopmentServerPort>
+          <DevelopmentServerPort>52680</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55017/</IISUrl>
+          <IISUrl>http://localhost:52680/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

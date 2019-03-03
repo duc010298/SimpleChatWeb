@@ -14,9 +14,9 @@ namespace WebChat.Models
     
     public partial class relationship
     {
-        public string relationship_id { get; set; }
-        public string cus1_id { get; set; }
-        public string cus2_id { get; set; }
+        public System.Guid relationship_id { get; set; }
+        public System.Guid cus1_id { get; set; }
+        public System.Guid cus2_id { get; set; }
         public int relationship_status { get; set; }
     
         public virtual customer customer { get; set; }

@@ -20,7 +20,7 @@ namespace WebChat.Models
             this.app_role = new HashSet<app_role>();
         }
     
-        public string app_user_id { get; set; }
+        public System.Guid app_user_id { get; set; }
         public string username { get; set; }
         public string encrypted_password { get; set; }
     
