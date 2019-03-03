@@ -184,6 +184,7 @@ namespace WebChat.Controllers
                     Session["UserID"] = loginInfo.app_user_id;
 
                     //TODO add role customer
+                    //TODO add notify for user to update information
                 }
             }
             catch
