@@ -44,25 +44,23 @@ namespace WebChat.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(AuthenticationModel entity)
         {
-            string encrypt_password = string.Empty;
+            // Ensure we have a valid viewModel to work with
+            if (!ModelState.IsValid)
+            {
+                return View("Form", entity);
+            }
             try
             {
                 using (var db = new WebChatEntities())
                 {
-                    // Ensure we have a valid viewModel to work with
-                    if (!ModelState.IsValid)
-                    {
-                        return View("Form", entity);
-                    }
-
                     //Retrive Stored Encrypt Password From Database According To Username (one unique field)
-                    var userInfo = db.app_user.Where(s => s.username == entity.Login.Username.Trim()).FirstOrDefault();
+                    var userInfo = db.app_user.Where(s => s.username == entity.Login.Username.Trim().ToLower()).FirstOrDefault();
 
                     //Verify password
                     bool isLogin;
                     if (userInfo != null)
                     {
-                        encrypt_password = userInfo.encrypted_password;
+                        string encrypt_password = userInfo.encrypted_password;
                         isLogin = BCrypt.Net.BCrypt.Verify(entity.Login.Password, encrypt_password);
                     }
                     else
@@ -80,8 +78,14 @@ namespace WebChat.Controllers
                         //Set A Unique ID in session
                         Session["UserID"] = userInfo.app_user_id;
 
+                        //Change status online to true
+                        var customer = db.customers.Find(userInfo.app_user_id);
+                        customer.status_online = true;
+                        db.SaveChanges();
+
                         //Redirect to Index
                         return RedirectToAction("Index", "WebChat");
+
                     }
                     else
                     {
@@ -132,7 +136,62 @@ namespace WebChat.Controllers
             {
                 return View("Form", entity);
             }
-            return View("Form", entity);
+            try
+            {
+                using (var db = new WebChatEntities())
+                {
+                    //Generate new id
+                    Guid id = Guid.NewGuid();
+                    /*
+                     * Save username and password to app_user
+                     */
+                    string username = entity.Regesiter.Username.Trim().ToLower();
+                    string password = entity.Regesiter.Password.Trim().ToLower();
+                    //Hash password before save to database
+                    string encrypt_password = BCrypt.Net.BCrypt.HashPassword(password);
+                    var loginInfo = new app_user
+                    {
+                        app_user_id = id,
+                        username = username,
+                        encrypted_password = encrypt_password
+                    };
+                    db.app_user.Add(loginInfo);
+                    //maybe check error here, method return 0 => no record added to database
+                    db.SaveChanges();
+
+                    /*
+                     * Save customer info to customer table
+                     */
+                    string email = entity.Regesiter.Email.Trim().ToLower();
+                    string fullname = entity.Regesiter.Fullname.Trim();
+                    DateTime birth = entity.Regesiter.Birth;
+                    string gender = entity.Regesiter.Gender;
+                    var customerInfo = new customer();
+                    customerInfo.app_user_id = id;
+                    customerInfo.fullname = fullname;
+                    customerInfo.status_online = true;
+                    customerInfo.last_online = DateTime.Now;
+                    customerInfo.email = email;
+                    customerInfo.gender = gender.Equals("Male") ? true : false;
+                    customerInfo.birth = birth;
+                    db.customers.Add(customerInfo);
+                    //maybe check error here, method return 0 => no record added to database
+                    db.SaveChanges();
+
+                    //Login with new account
+                    FormsAuthentication.SignOut();
+                    FormsAuthentication.SetAuthCookie(loginInfo.username, false);
+                    Session["UserID"] = loginInfo.app_user_id;
+
+                    //TODO add role customer
+                }
+            }
+            catch
+            {
+                throw;
+            }
+
+            return RedirectToAction("Index", "WebChat");
         }
     }
 }

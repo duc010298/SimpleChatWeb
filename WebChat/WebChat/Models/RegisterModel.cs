@@ -28,7 +28,7 @@ namespace WebChat.Models
         public string Fullname { get; set; }
         [Required(ErrorMessage = "Không được để trống ngày sinh")]
         [DataType(DataType.Date, ErrorMessage = "Ngày sinh không hợp lệ"), DisplayFormat(DataFormatString = "{dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? Birth { get; set; }
+        public DateTime Birth { get; set; }
         [Required(ErrorMessage = "Không được để trống giới tính")]
         public string Gender { get; set; }
     }
