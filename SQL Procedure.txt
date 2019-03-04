@@ -1,0 +1,17 @@
+//////////////////////////////////////////////////////////Create LoginProcedure
+CREATE PROCEDURE [LoginProcedure]
+	@Username varchar(150),
+	@Password varchar(150)
+AS
+BEGIN
+	declare @count int 
+	declare @res bit
+	
+	select @count = COUNT(*)from app_user where username = @Username and encrypted_password = @Password
+	if @count > 0
+	set @res = 1
+	else
+	set @res = 0
+	select @res
+END
+/////////////////////////////////////////////////////////////////
