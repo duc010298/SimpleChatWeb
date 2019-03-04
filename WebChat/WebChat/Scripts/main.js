@@ -1,1 +1,0 @@
-// All function and code javascript and jquery here
