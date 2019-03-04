@@ -1,1 +1,25 @@
 /* All your custom css style here */
+.footer{
+    height: 50px !important;
+    line-height: 50px !important;
+    background-color:#343a40 !important;
+    align-content: center;
+    color: white;
+    text-align: center;
+}
+.img-avartar{
+    border-radius: 50% !important;
+    width: 100% !important;
+    height: 100% !important;
+   
+}
+.body{
+    margin: 10px !important;
+}
+.row{
+    margin-right: 5px !important;
+    margin-bottom: 5px;
+}
+.chatbox{
+    height: 200px !important;
+}
