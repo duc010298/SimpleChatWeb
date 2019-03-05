@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="04fba09d3dfa44d9abcbccb0129a8d95" Name="Diagram1">
+        <EntityTypeShape EntityType="WebChatModel.app_role" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebChatModel.app_user" Width="1.5" PointX="0.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebChatModel.customer" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebChatModel.message" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebChatModel.notify" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebChatModel.relationship" Width="1.5" PointX="5.25" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebChatModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="WebChatModel.FK__customer__app_us__15502E78" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__message__cus_rec__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__message__cus_sen__24927208" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__notify__cus_id__2B3F6F97" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__relations__cus1___1DE57479" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.FK__relations__cus2___1ED998B2" ManuallyRouted="false" />
+        <AssociationConnector Association="WebChatModel.user_role" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

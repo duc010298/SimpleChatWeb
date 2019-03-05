@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css?family=Laila');
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+html , body{
+    font-family: 'Laila';
+    font-size: 18px;
+}
+body{
+    background-image: url("/image/anh-nen-may-tinh-cuc-dep-cua-bo-phim-your-name-cau-ten-la-gi-dang-hot-fptshop-3.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center ;
+    background-color: teal;
+}
+.row-container{
+    box-shadow: 0px 0px 20px black;
+    color: white;
+    padding: 20px;
+    border-radius: 25px;
+}
+h1, label{
+    text-shadow: 2px 2px 20px black;
+}
+.logo{
+    width: 40%;
+}
+.containerWebChat{
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-flex;
+    justify-content: center;
+    align-items: center;
+}
+
