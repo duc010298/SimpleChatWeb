@@ -166,7 +166,8 @@ main {
     position: fixed;
     top: 115px;
     left: 450px;
-    height: calc(100% - 115px);
+    bottom: 48px;
+    height: calc(100% - 163px);
     width: calc(100% - 450px);
     overflow-x: hidden;
     overflow-y: scroll;
@@ -287,4 +288,35 @@ main {
     -webkit-line-clamp: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.send-message {
+    position: fixed;
+    bottom: 0;
+    left: 450px;
+    width: calc(100% - 450px);
+}
+
+.input-message {
+    border-radius: 0;
+    border-left: none;
+    border-bottom: none;
+}
+
+.input-message:focus {
+    outline: none !important;
+    box-shadow: none;
+    border-color: rgb(206,212,218);
+}
+
+.btn-send-message {
+    width: 100px;
+    border-color: rgb(206,212,218);
+    border-radius: 0;
+    border: none;
+}
+
+.btn-send-message:focus {
+    outline: none !important;
+    box-shadow: none;
 }
