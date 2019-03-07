@@ -1,18 +1,372 @@
-﻿
+﻿@model WebChat.Models.HomePageModel
 @{
     Layout = null;
 }
 
 <!DOCTYPE html>
-
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/style.css")">
+    <title>Web Chat</title>
 </head>
+
 <body>
-    <div> 
-        This is is index page
-    </div>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="/">Web Chat</a>
+            <ul class="navbar-nav ml-auto">
+                <li><a href="" class="nav-link"><i class="fas fa-user-plus"></i> Thêm bạn bè</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                        <i class="fas fa-bell"></i> Thông báo <b>(3)</b>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-noti">
+                        <div class="noti-header">
+                            <div class="noti-title">Thông báo</div>
+                            <div class="make-all-read">Đánh dấu tất cả là đã đọc</div>
+                        </div>
+                        <ul class="noti-content">
+                            <li class="row row-noti">
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="notify-img"><img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt=""></div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <div class="row-content">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis itaque veritatis
+                                        expedita voluptatem atque voluptate perferendis fuga quaerat fugit repellendus
+                                        provident at minima eaque, maxime, blanditiis soluta laborum in repudiandae.
+                                    </div>
+                                    <div class="row-time">
+                                        7 giờ
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="row row-noti">
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="notify-img"><img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt=""></div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <div class="row-content">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis itaque veritatis
+                                        expedita voluptatem atque voluptate perferendis fuga quaerat fugit repellendus
+                                        provident at minima eaque, maxime, blanditiis soluta laborum in repudiandae.
+                                    </div>
+                                    <div class="row-time">
+                                        7 giờ
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="row row-noti">
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="notify-img"><img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt=""></div>
+                                </div>
+                                <div class="col-md-9 col-sm-9 col-xs-9">
+                                    <div class="row-content">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis itaque veritatis
+                                        expedita voluptatem atque voluptate perferendis fuga quaerat fugit repellendus
+                                        provident at minima eaque, maxime, blanditiis soluta laborum in repudiandae.
+                                    </div>
+                                    <div class="row-time">
+                                        7 giờ
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="noti-footer">
+                            <b>Xem tất cả thông báo</b>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle header-avatar" href="#" data-toggle="dropdown">
+                        @if (Model.CurrentUser.avatar == null)
+                        {
+                            <img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt="">
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/UploadedFiles/Avatar/" + Model.CurrentUser.avatar)" alt="">
+                        }
+                        @Html.DisplayFor(s => s.CurrentUser.fullname)
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> Thông tin tài khoản</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Bạn bè</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="@Url.Action("Logout", "Authentication")"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="search">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search on WebChat">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+        <div class="chat-title">
+            <div class="chat-title-image">
+                <img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" id="chat-title-avatar" alt="">
+                <span class="chat-title-image-icon online" id="chat-title-isOnline"></span>
+            </div>
+            <div class="chat-title-content">
+                <h4 id="chat-title-name">...</h4>
+                <div class="chat-title-time" id="chat-title-last-online">... giờ</div>
+            </div>
+        </div>
+        <div class="current-friend">
+            @foreach (var friend in Model.LastFriendsContact)
+            {
+                <div class="current-friend-container">
+                    <input class="friendId" value="@friend.FriendId" hidden>
+                    <div class="curent-friend-image">
+                        @if (friend.Avatar == null)
+                        {
+                            <img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt="">
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/UploadedFiles/Avatar/" + friend.Avatar)" alt="">
+                        }
+                        @if (friend.Status_online)
+                        {
+                            <span class="curent-friend-image-icon online"></span>
+                        }
+                    </div>
+                    <div class="curent-friend-content">
+                        <div class="current-friend-name">@friend.FriendName</div>
+                        <div class="current-friend-last-message">@friend.LastMessage</div>
+                        <div class="current-friend-last-message-time">@friend.LastSendTime.ToString("o")</div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="current-chat" id="current-chat"></div>
+        <div class="send-message">
+            <div class="input-group">
+                <input type="text" class="form-control form-control-lg input-message" placeholder="Nhập tin nhắn...">
+                <div class="input-group-append">
+                    <button class="btn btn-primary btn-lg btn-send-message" type="submit">Gửi</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/popper.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/moment.js")"></script>
+    <script src="@Url.Content("~/Scripts/main.js")"></script>
+    <script>
+        $(".current-friend-last-message-time").each(function () {
+            var datetimeoffset = $(this).html();
+            var start = moment(datetimeoffset);
+            var end = moment();
+            var duration = moment.duration(end.diff(start));
+
+            var time;
+            time = duration.asSeconds();
+            if (time <= 60) {
+                $(this).html(Math.round(time) + ' giây');
+            } else {
+                time = duration.asMinutes();
+                if (time <= 60) {
+                    $(this).html(Math.round(time) + ' phút');
+                } else {
+                time = duration.asHours();
+                    if (time <= 24) {
+                        $(this).html(Math.round(time) + ' giờ');
+                    } else {
+                        time = duration.asDays();
+                        if (time <= 7) {
+                            $(this).html(Math.round(time) + ' ngày');
+                        } else {
+                            $(this).html(start.format("DD-MM-YYYY"));
+                        }
+                    }
+                }
+            }
+        });
+
+        function move_chat_to_bottom(doSlow) {
+            $('#elementToScrollTo').remove();
+            var currentHtml = $('#current-chat').html();
+            currentHtml += '<span id="elementToScrollTo"></span>';
+            $('#current-chat').html("");
+            $('#current-chat').html(currentHtml);
+            if (doSlow) {
+                $("#current-chat").animate({ scrollTop: $("#elementToScrollTo").position().top }, 'slow')
+                return;
+            }
+            $('#current-chat').css("opacity", "0");
+            $.when($("#current-chat").animate({ scrollTop: $("#elementToScrollTo").position().top }, 1)).done(function () {
+                $('#current-chat').css("opacity", "");
+            });
+        }
+
+        function insert_send_message(Content, Message_status, Send_time) {
+            var datetimeoffset = Send_time;
+            var start = moment(datetimeoffset);
+            var end = moment();
+            var duration = moment.duration(end.diff(start));
+            var result;
+            var time;
+            time = duration.asSeconds();
+            if (time <= 60) {
+                result = Math.round(time) + ' giây';
+            } else {
+                time = duration.asMinutes();
+                if (time <= 60) {
+                    result = Math.round(time) + ' phút';
+                } else {
+                    time = duration.asHours();
+                    if (time <= 24) {
+                        result = Math.round(time) + ' giờ';
+                    } else {
+                        time = duration.asDays();
+                        if (time <= 7) {
+                            result = Math.round(time) + ' ngày';
+                        } else {
+                            result = start.format("DD-MM-YYYY");
+                        }
+                    }
+                }
+            }
+            var html =
+                '<div class="d-flex justify-content-end">' +
+                '<div class="msg_cotainer">' +
+                Content +
+                '<span class="msg_time">' + result + '</span>' +
+                '</div>' +
+                '<div class="img_cont_msg">';
+            if ('@Model.CurrentUser.avatar' == '') {
+                html += '<img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")">';
+            } else {
+                html += '<img src="@Url.Content("~/UploadedFiles/Avatar/" + Model.CurrentUser.avatar)">';
+            }
+            html += '</div></div>';
+            var currentHtml = $("#current-chat").html();
+            currentHtml += html;
+            $("#current-chat").html(currentHtml);
+        }
+
+        function insert_receive_message(Avatar, Content, Message_status, Send_time) {
+            var datetimeoffset = Send_time;
+            var start = moment(datetimeoffset);
+            var end = moment();
+            var duration = moment.duration(end.diff(start));
+            var result;
+            var time;
+            time = duration.asSeconds();
+            if (time <= 60) {
+                result = Math.round(time) + ' giây';
+            } else {
+                time = duration.asMinutes();
+                if (time <= 60) {
+                    result = Math.round(time) + ' phút';
+                } else {
+                    time = duration.asHours();
+                    if (time <= 24) {
+                        result = Math.round(time) + ' giờ';
+                    } else {
+                        time = duration.asDays();
+                        if (time <= 7) {
+                            result = Math.round(time) + ' ngày';
+                        } else {
+                            result = start.format("DD-MM-YYYY");
+                        }
+                    }
+                }
+            }
+            if (Avatar == null) Avatar = 'sample_avatar.png';
+            var html =
+                '<div class="d-flex justify-content-start">' +
+                '<div class="img_cont_msg">' +
+                '<img src="@Url.Content("~/UploadedFiles/Avatar/")' + Avatar + '">' +
+                '</div>' +
+                '<div class="msg_cotainer">' +
+                Content +
+                '<span class="msg_time">' + result + '</span>' +
+                '</div>' +
+                '</div>';
+            var currentHtml = $("#current-chat").html();
+            currentHtml += html;
+            $("#current-chat").html(currentHtml);
+        }
+
+        $(".current-friend-container").on('click', function () {
+            $('#current-chat').html("");
+            $(".current-friend-container").removeClass('active');
+            $(this).addClass('active');
+            var friendId = $(this).children('.friendId').val();
+            $.ajax({
+                url: "@Url.Action("GetChatContent", "WebChat")",
+                type: 'POST',
+                data: {
+                    guid: friendId,
+                    page: 1
+                }
+            }).done(function (result) {
+                var avatar = result.Avatar;
+                if (avatar !== null) {
+                    $('#chat-title-avatar').attr('src', avatar);
+                }
+                if (result.Status_online) {
+                    $('#chat-title-isOnline').show();
+                    $('#chat-title-last-online').html("Online");
+                } else {
+                    $('#chat-title-isOnline').hide();
+                    var start = moment(result.Last_online);
+                    var end = moment();
+                    var duration = moment.duration(end.diff(start));
+                    var time;
+                    time = duration.asSeconds();
+                    if (time <= 60) {
+                        $('#chat-title-last-online').html(Math.round(time) + ' giây');
+                    } else {
+                        time = duration.asMinutes();
+                        if (time <= 60) {
+                            $('#chat-title-last-online').html(Math.round(time) + ' phút');
+                        } else {
+                            time = duration.asHours();
+                            if (time <= 24) {
+                                $('#chat-title-last-online').html(Math.round(time) + ' giờ');
+                            } else {
+                                time = duration.asDays();
+                                if (time <= 7) {
+                                    $('#chat-title-last-online').html(Math.round(time) + ' ngày');
+                                } else {
+                                    $('#chat-title-last-online').html(start.format("DD-MM-YYYY"));
+                                }
+                            }
+                        }
+                    }
+                }
+                $('#chat-title-name').html(result.Fullname);
+                var messages = result.Messages;
+                messages.forEach(function (entry) {
+                    if (entry.IsSend) {
+                        insert_send_message(entry.Content, entry.Message_status, entry.Send_time);
+                    } else {
+                        insert_receive_message(avatar, entry.Content, entry.Message_status, entry.Send_time);
+                    }
+                });
+                move_chat_to_bottom(false);
+            });
+        });
+
+        $(".current-friend-container").first().click();
+    </script>
 </body>
 </html>

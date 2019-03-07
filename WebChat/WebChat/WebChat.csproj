@@ -118,7 +118,9 @@
     <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\main.js" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="UploadedFiles\Avatar\sample_avatar.png" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -139,10 +141,14 @@
     <Compile Include="Models\customer.cs">
       <DependentUpon>WebChatModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FriendAndChatContentModel.cs" />
+    <Compile Include="Models\FriendModel.cs" />
+    <Compile Include="Models\HomePageModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\message.cs">
       <DependentUpon>WebChatModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\MessageContentModel.cs" />
     <Compile Include="Models\notify.cs">
       <DependentUpon>WebChatModel.tt</DependentUpon>
     </Compile>
@@ -232,7 +238,7 @@
     </ItemGroup>
     <MakeDir Directories="$(WebProjectOutputDir)\bin\roslyn" />
     <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(WebProjectOutputDir)\bin\roslyn" SkipUnchangedFiles="true" Retries="$(CopyRetryCount)" RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)" />
-</Target>
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

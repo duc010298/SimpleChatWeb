@@ -79,7 +79,7 @@ namespace WebChat.Controllers
                         Session["UserID"] = userInfo.app_user_id;
 
                         //Change status online to true
-                        var customer = db.customers.Find(userInfo.app_user_id);
+                        var customer = db.customer.Find(userInfo.app_user_id);
                         customer.status_online = true;
                         db.SaveChanges();
 
@@ -174,7 +174,7 @@ namespace WebChat.Controllers
                     customerInfo.email = email;
                     customerInfo.gender = gender.Equals("Male") ? true : false;
                     customerInfo.birth = birth;
-                    db.customers.Add(customerInfo);
+                    db.customer.Add(customerInfo);
                     //maybe check error here, method return 0 => no record added to database
                     db.SaveChanges();
 
