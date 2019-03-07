@@ -153,6 +153,7 @@
                 </div>
             }
         </div>
+        <div id="spinner-container"></div>
         <div class="current-chat" id="current-chat"></div>
         <div class="send-message">
             <div class="input-group">
@@ -169,43 +170,10 @@
     <script src="@Url.Content("~/Scripts/moment.js")"></script>
     <script src="@Url.Content("~/Scripts/main.js")"></script>
     <script>
-        $(".current-friend-last-message-time").each(function () {
-            var datetimeoffset = $(this).html();
-            var start = moment(datetimeoffset);
-            var end = moment();
-            var duration = moment.duration(end.diff(start));
-
-            var time;
-            time = duration.asSeconds();
-            if (time <= 60) {
-                $(this).html(Math.round(time) + ' giây');
-            } else {
-                time = duration.asMinutes();
-                if (time <= 60) {
-                    $(this).html(Math.round(time) + ' phút');
-                } else {
-                time = duration.asHours();
-                    if (time <= 24) {
-                        $(this).html(Math.round(time) + ' giờ');
-                    } else {
-                        time = duration.asDays();
-                        if (time <= 7) {
-                            $(this).html(Math.round(time) + ' ngày');
-                        } else {
-                            $(this).html(start.format("DD-MM-YYYY"));
-                        }
-                    }
-                }
-            }
-        });
-
-        function move_chat_to_bottom(doSlow) {
+        function scrollChatToBottom(isSlow) {
             $('#elementToScrollTo').remove();
-            var currentHtml = $('#current-chat').html();
-            currentHtml += '<span id="elementToScrollTo"></span>';
-            $('#current-chat').html("");
-            $('#current-chat').html(currentHtml);
-            if (doSlow) {
+            $('#current-chat').append('<span id="elementToScrollTo"></span>');
+            if (isSlow) {
                 $("#current-chat").animate({ scrollTop: $("#elementToScrollTo").position().top }, 'slow')
                 return;
             }
@@ -215,14 +183,12 @@
             });
         }
 
-        function insert_send_message(Content, Message_status, Send_time) {
-            var datetimeoffset = Send_time;
+        function datetimeoffsetToDisplay(datetimeoffset) {
             var start = moment(datetimeoffset);
             var end = moment();
             var duration = moment.duration(end.diff(start));
             var result;
-            var time;
-            time = duration.asSeconds();
+            var time = duration.asSeconds();
             if (time <= 60) {
                 result = Math.round(time) + ' giây';
             } else {
@@ -242,53 +208,37 @@
                         }
                     }
                 }
+            }
+            return result;
+        }
+
+        $(".current-friend-last-message-time").each(function () {
+            var datetimeoffset = $(this).html();
+            $(this).html(datetimeoffsetToDisplay(datetimeoffset));
+        });
+
+        function insert_send_message(Content, Message_status, Send_time) {
+            var time = datetimeoffsetToDisplay(Send_time);
+            var avatar;
+            if ('@Model.CurrentUser.avatar' == '') {
+                avatar = 'sample_avatar.png';
+            } else {
+                avatar = '@Model.CurrentUser.avatar';
             }
             var html =
                 '<div class="d-flex justify-content-end">' +
                 '<div class="msg_cotainer">' +
                 Content +
-                '<span class="msg_time">' + result + '</span>' +
+                '<span class="msg_time">' + time + '</span>' +
                 '</div>' +
-                '<div class="img_cont_msg">';
-            if ('@Model.CurrentUser.avatar' == '') {
-                html += '<img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")">';
-            } else {
-                html += '<img src="@Url.Content("~/UploadedFiles/Avatar/" + Model.CurrentUser.avatar)">';
-            }
-            html += '</div></div>';
-            var currentHtml = $("#current-chat").html();
-            currentHtml += html;
-            $("#current-chat").html(currentHtml);
+                '<div class="img_cont_msg">' +
+                '<img src="@Url.Content("~/UploadedFiles/Avatar/")' + avatar + '">' +
+                '</div></div>';
+            $("#current-chat").append(html);
         }
 
         function insert_receive_message(Avatar, Content, Message_status, Send_time) {
-            var datetimeoffset = Send_time;
-            var start = moment(datetimeoffset);
-            var end = moment();
-            var duration = moment.duration(end.diff(start));
-            var result;
-            var time;
-            time = duration.asSeconds();
-            if (time <= 60) {
-                result = Math.round(time) + ' giây';
-            } else {
-                time = duration.asMinutes();
-                if (time <= 60) {
-                    result = Math.round(time) + ' phút';
-                } else {
-                    time = duration.asHours();
-                    if (time <= 24) {
-                        result = Math.round(time) + ' giờ';
-                    } else {
-                        time = duration.asDays();
-                        if (time <= 7) {
-                            result = Math.round(time) + ' ngày';
-                        } else {
-                            result = start.format("DD-MM-YYYY");
-                        }
-                    }
-                }
-            }
+            var time = datetimeoffsetToDisplay(Send_time);
             if (Avatar == null) Avatar = 'sample_avatar.png';
             var html =
                 '<div class="d-flex justify-content-start">' +
@@ -297,12 +247,10 @@
                 '</div>' +
                 '<div class="msg_cotainer">' +
                 Content +
-                '<span class="msg_time">' + result + '</span>' +
+                '<span class="msg_time">' + time + '</span>' +
                 '</div>' +
                 '</div>';
-            var currentHtml = $("#current-chat").html();
-            currentHtml += html;
-            $("#current-chat").html(currentHtml);
+            $("#current-chat").append(html);
         }
 
         $(".current-friend-container").on('click', function () {
@@ -310,6 +258,7 @@
             $(".current-friend-container").removeClass('active');
             $(this).addClass('active');
             var friendId = $(this).children('.friendId').val();
+            $('#spinner-container').addClass('spinner');
             $.ajax({
                 url: "@Url.Action("GetChatContent", "WebChat")",
                 type: 'POST',
@@ -318,6 +267,7 @@
                     page: 1
                 }
             }).done(function (result) {
+                $('#spinner-container').removeClass('spinner');
                 var avatar = result.Avatar;
                 if (avatar !== null) {
                     $('#chat-title-avatar').attr('src', avatar);
@@ -327,31 +277,7 @@
                     $('#chat-title-last-online').html("Online");
                 } else {
                     $('#chat-title-isOnline').hide();
-                    var start = moment(result.Last_online);
-                    var end = moment();
-                    var duration = moment.duration(end.diff(start));
-                    var time;
-                    time = duration.asSeconds();
-                    if (time <= 60) {
-                        $('#chat-title-last-online').html(Math.round(time) + ' giây');
-                    } else {
-                        time = duration.asMinutes();
-                        if (time <= 60) {
-                            $('#chat-title-last-online').html(Math.round(time) + ' phút');
-                        } else {
-                            time = duration.asHours();
-                            if (time <= 24) {
-                                $('#chat-title-last-online').html(Math.round(time) + ' giờ');
-                            } else {
-                                time = duration.asDays();
-                                if (time <= 7) {
-                                    $('#chat-title-last-online').html(Math.round(time) + ' ngày');
-                                } else {
-                                    $('#chat-title-last-online').html(start.format("DD-MM-YYYY"));
-                                }
-                            }
-                        }
-                    }
+                    $('#chat-title-last-online').html(datetimeoffsetToDisplay(result.Last_online));
                 }
                 $('#chat-title-name').html(result.Fullname);
                 var messages = result.Messages;
@@ -362,10 +288,9 @@
                         insert_receive_message(avatar, entry.Content, entry.Message_status, entry.Send_time);
                     }
                 });
-                move_chat_to_bottom(false);
+                scrollChatToBottom(false);
             });
         });
-
         $(".current-friend-container").first().click();
     </script>
 </body>
