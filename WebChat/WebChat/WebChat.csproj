@@ -100,8 +100,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\header.css" />
     <Content Include="Content\loginRegister.css" />
-    <Content Include="Content\style.css" />
+    <Content Include="Content\index.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
     <Content Include="Models\WebChatModel.Context.tt">

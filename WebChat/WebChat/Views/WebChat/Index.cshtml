@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")">
-    <link rel="stylesheet" href="@Url.Content("~/Content/style.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/header.css")">
+    <link rel="stylesheet" href="@Url.Content("~/Content/index.css")">
     <title>Web Chat</title>
 </head>
 
@@ -372,10 +373,7 @@
                     } else {
                         insert_receive_message_top(avatar, entry.Content, entry.Message_status, entry.Send_time);
                     }
-                    $('#current-chat').css("opacity", "0");
-                    $.when($("#current-chat").animate({ scrollTop: $("#scroll-to-current-pos").position().top }, 1)).done(function () {
-                        $('#current-chat').css("opacity", "");
-                    });
+                    $("#current-chat").animate({ scrollTop: $("#scroll-to-current-pos").position().top }, 0)
                 });
             });
             }
