@@ -22,90 +22,95 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <a class="navbar-brand" href="/">Web Chat</a>
-            <ul class="navbar-nav ml-auto">
-                <li><a href="" class="nav-link"><i class="fas fa-user-plus"></i> Thêm bạn bè</a></li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                        <i class="fas fa-bell"></i> Thông báo <b>(3)</b>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-noti">
-                        <div class="noti-header">
-                            <div class="noti-title">Thông báo</div>
-                            <div class="make-all-read">Đánh dấu tất cả là đã đọc</div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav ml-auto">
+                    <li><a href="" class="nav-link"><i class="fas fa-user-plus"></i> Thêm bạn bè</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                            <i class="fas fa-bell"></i> Thông báo <b>(3)</b>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-noti">
+                            <div class="noti-header">
+                                <div class="noti-title">Thông báo</div>
+                                <div class="make-all-read">Đánh dấu tất cả là đã đọc</div>
+                            </div>
+                            <ul class="noti-content">
+                                <li class="row row-noti">
+                                    <div class="col-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="notify-img"><img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt=""></div>
+                                    </div>
+                                    <div class="col-9 col-md-9 col-sm-9 col-xs-9">
+                                        <div class="row-content">
+                                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis itaque veritatis
+                                            expedita voluptatem atque voluptate perferendis fuga quaerat fugit repellendus
+                                            provident at minima eaque, maxime, blanditiis soluta laborum in repudiandae.
+                                        </div>
+                                        <div class="row-time">
+                                            7 giờ
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="row row-noti">
+                                    <div class="col-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="notify-img"><img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt=""></div>
+                                    </div>
+                                    <div class="col-9 col-md-9 col-sm-9 col-xs-9">
+                                        <div class="row-content">
+                                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis itaque veritatis
+                                            expedita voluptatem atque voluptate perferendis fuga quaerat fugit repellendus
+                                            provident at minima eaque, maxime, blanditiis soluta laborum in repudiandae.
+                                        </div>
+                                        <div class="row-time">
+                                            7 giờ
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="row row-noti">
+                                    <div class="col-3 col-md-3 col-sm-3 col-xs-3">
+                                        <div class="notify-img"><img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt=""></div>
+                                    </div>
+                                    <div class="col-9 col-md-9 col-sm-9 col-xs-9">
+                                        <div class="row-content">
+                                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis itaque veritatis
+                                            expedita voluptatem atque voluptate perferendis fuga quaerat fugit repellendus
+                                            provident at minima eaque, maxime, blanditiis soluta laborum in repudiandae.
+                                        </div>
+                                        <div class="row-time">
+                                            7 giờ
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="noti-footer">
+                                <b>Xem tất cả thông báo</b>
+                            </div>
                         </div>
-                        <ul class="noti-content">
-                            <li class="row row-noti">
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <div class="notify-img"><img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt=""></div>
-                                </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <div class="row-content">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis itaque veritatis
-                                        expedita voluptatem atque voluptate perferendis fuga quaerat fugit repellendus
-                                        provident at minima eaque, maxime, blanditiis soluta laborum in repudiandae.
-                                    </div>
-                                    <div class="row-time">
-                                        7 giờ
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="row row-noti">
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <div class="notify-img"><img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt=""></div>
-                                </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <div class="row-content">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis itaque veritatis
-                                        expedita voluptatem atque voluptate perferendis fuga quaerat fugit repellendus
-                                        provident at minima eaque, maxime, blanditiis soluta laborum in repudiandae.
-                                    </div>
-                                    <div class="row-time">
-                                        7 giờ
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="row row-noti">
-                                <div class="col-md-3 col-sm-3 col-xs-3">
-                                    <div class="notify-img"><img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt=""></div>
-                                </div>
-                                <div class="col-md-9 col-sm-9 col-xs-9">
-                                    <div class="row-content">
-                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis itaque veritatis
-                                        expedita voluptatem atque voluptate perferendis fuga quaerat fugit repellendus
-                                        provident at minima eaque, maxime, blanditiis soluta laborum in repudiandae.
-                                    </div>
-                                    <div class="row-time">
-                                        7 giờ
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                        <div class="noti-footer">
-                            <b>Xem tất cả thông báo</b>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle header-avatar" href="#" data-toggle="dropdown">
+                            @if (Model.CurrentUser.avatar == null)
+                            {
+                                <img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt="">
+                            }
+                            else
+                            {
+                                <img src="@Url.Content("~/UploadedFiles/Avatar/" + Model.CurrentUser.avatar)" alt="">
+                            }
+                            @Html.DisplayFor(s => s.CurrentUser.fullname)
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> Thông tin tài khoản</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Bạn bè</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="@Url.Action("Logout", "Authentication")"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                         </div>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle header-avatar" href="#" data-toggle="dropdown">
-                        @if (Model.CurrentUser.avatar == null)
-                        {
-                            <img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" alt="">
-                        }
-                        else
-                        {
-                            <img src="@Url.Content("~/UploadedFiles/Avatar/" + Model.CurrentUser.avatar)" alt="">
-                        }
-                        @Html.DisplayFor(s => s.CurrentUser.fullname)
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> Thông tin tài khoản</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Bạn bè</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="@Url.Action("Logout", "Authentication")"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
     <main>
