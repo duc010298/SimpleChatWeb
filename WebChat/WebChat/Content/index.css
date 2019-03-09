@@ -97,21 +97,21 @@ main {
     display: none;
 }
 
-.spinner:before {
-    content: "";
-    box-sizing: border-box;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    height: 60px;
-    width: 60px;
-    margin-top: -30px;
-    margin-left: -30px;
-    border-radius: 50%;
-    border: 3px solid lightgray;
-    border-top-color: coral;
-    animation: spinner 0.7s linear infinite;
-}
+    .spinner:before {
+        content: "";
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 60px;
+        width: 60px;
+        margin-top: -30px;
+        margin-left: -30px;
+        border-radius: 50%;
+        border: 3px solid lightgray;
+        border-top-color: coral;
+        animation: spinner 0.7s linear infinite;
+    }
 
 @keyframes spinner {
     to {
@@ -218,9 +218,17 @@ main {
     color: rgb(144, 148, 156);
 }
 
+.current-friend-last-message-bold {
+    color: #000;
+    font-weight: bold;
+}
+
 .current-friend-last-message-time {
     color: rgb(144, 148, 156);
-    font-size: 12px;
+}
+
+.current-friend-last-message-time-bold {
+    color: #0084ff;
 }
 
 .active {
@@ -233,6 +241,11 @@ main {
     -webkit-line-clamp: 1;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.current-friend-name-bold {
+    color: #000;
+    font-weight: bold;
 }
 
 .send-message {

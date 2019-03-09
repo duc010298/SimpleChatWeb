@@ -103,6 +103,11 @@ function insert_receive_message_top(Avatar, Content, Message_status, Send_time) 
 
 function loadChatContent() {
     $(".current-friend-container").on('click', function () {
+        var childContent = $(this).children('.curent-friend-content');
+        childContent.children('.current-friend-name').removeClass('current-friend-name-bold');
+        childContent.children('.current-friend-last-message').removeClass('current-friend-last-message-bold');
+        childContent.children('.current-friend-last-message-time').removeClass('current-friend-last-message-time-bold');
+        //TODO call SignalR here
         $('#chat-page').val('1');
         var page = $('#chat-page').val();
         $('#current-chat').html("");
@@ -159,6 +164,23 @@ function loadCurrentFriend() {
             if (entry.Avatar != null) {
                 avatar = entry.Avatar;
             }
+            var friendName = entry.FriendName;
+            var lastMessage = entry.LastMessage;
+            var lastSendTime = entry.LastSendTime;
+            if (entry.IsSend) {
+                lastMessage = 'Bạn: ' + lastMessage;
+            }
+            console.log(entry.MessageStatus);
+            if (entry.MessageStatus === 0 || entry.MessageStatus === 1) {
+                friendName = '<div class="current-friend-name current-friend-name-bold">' + friendName + '</div>';
+                lastMessage = '<div class="current-friend-last-message current-friend-last-message-bold">' + lastMessage + '</div>';
+                lastSendTime = '<div class="current-friend-last-message-time current-friend-last-message-time-bold">' + lastSendTime + '</div>';
+            } else {
+                friendName = '<div class="current-friend-name">' + friendName + '</div>';
+                lastMessage = '<div class="current-friend-last-message">' + lastMessage + '</div>';
+                lastSendTime = '<div class="current-friend-last-message-time">' + lastSendTime + '</div>';
+            }
+
             var html = '<div class="current-friend-container">' +
                 '<input class="friendId" value="' + entry.FriendId + '" hidden>' +
                 '<div class="curent-friend-image">' +
@@ -168,9 +190,9 @@ function loadCurrentFriend() {
             }
             html += '</div>' +
                 '<div class="curent-friend-content">' +
-                '<div class="current-friend-name">' + entry.FriendName + '</div>' +
-                '<div class="current-friend-last-message">' + entry.LastMessage + '</div>' +
-                '<div class="current-friend-last-message-time">' + entry.LastSendTime + '</div>' +
+                friendName +
+                lastMessage +
+                lastSendTime +
                 '</div></div>';
             $('#currentf-friend').append(html);
         });

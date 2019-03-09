@@ -12,6 +12,8 @@ namespace WebChat.Models
         public string Avatar { get; set; }
         public bool Status_online { get; set; }
         public string LastMessage { get; set; }
+        public bool IsSend { get; set; }
         public string LastSendTime { get; set; }
+        public int MessageStatus { get; set; }
     }
 }
