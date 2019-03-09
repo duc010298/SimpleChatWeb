@@ -9,19 +9,29 @@ namespace WebChat.Controllers
 {
     public class WebChatController : Controller
     {
-        // GET: WebChat
         [HttpGet]
         [CheckAuthorization]
         public ActionResult Index()
         {
-            var homePageModel = new HomePageModel();
             Guid userID = (Guid)Session["UserID"];
             using (var db = new WebChatEntities())
             {
-                var userInfo = db.customer.Where(s => s.app_user_id == userID).FirstOrDefault();
-                homePageModel.CurrentUser = userInfo;
-                var lastMessageSend = db.messages.Where(s => s.cus_send_id == userInfo.app_user_id).OrderBy(s => s.send_time).GroupBy(s => s.cus_receive_id);
-                var lastMessageReceive = db.messages.Where(s => s.cus_receive_id == userInfo.app_user_id).OrderBy(s => s.send_time).GroupBy(s => s.cus_send_id);
+                var userInfo = db.customers.Where(s => s.app_user_id == userID).FirstOrDefault();
+                ViewBag.Avatar = userInfo.avatar;
+                ViewBag.Fullname = userInfo.fullname;
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [CheckAuthorization]
+        public ActionResult GetCurrentFriend()
+        {
+            Guid userID = (Guid)Session["UserID"];
+            using (var db = new WebChatEntities())
+            {
+                var lastMessageSend = db.messages.Where(s => s.cus_send_id == userID).OrderBy(s => s.send_time).GroupBy(s => s.cus_receive_id);
+                var lastMessageReceive = db.messages.Where(s => s.cus_receive_id == userID).OrderBy(s => s.send_time).GroupBy(s => s.cus_send_id);
                 List<Guid> lastUserContact = new List<Guid>();
                 foreach (var groupItem in lastMessageSend)
                 {
@@ -32,38 +42,39 @@ namespace WebChat.Controllers
                     lastUserContact.Add(groupItem.Key);
                 }
                 lastUserContact = lastUserContact.Distinct().ToList();
-                List<FriendModel> FriendList = new List<FriendModel>();
+                List<FriendModelJson> FriendList = new List<FriendModelJson>();
                 foreach (var friendId in lastUserContact)
                 {
-                    FriendModel friend = new FriendModel();
-                    friend.FriendId = friendId;
-                    var friendInfo = db.customer.Where(s => s.app_user_id == friendId).FirstOrDefault();
+                    FriendModelJson friend = new FriendModelJson();
+                    friend.FriendId = friendId.ToString();
+                    var friendInfo = db.customers.Where(s => s.app_user_id == friendId).FirstOrDefault();
                     friend.FriendName = friendInfo.fullname;
                     friend.Avatar = friendInfo.avatar;
                     friend.Status_online = friendInfo.status_online;
                     var lastMessage = db.messages.Where(s => s.cus_send_id == friendId || s.cus_receive_id == friendId).OrderByDescending(s => s.send_time).FirstOrDefault();
                     friend.LastMessage = lastMessage.message1;
-                    friend.LastSendTime = lastMessage.send_time;
+                    friend.LastSendTime = lastMessage.send_time.ToString("o");
                     FriendList.Add(friend);
                 }
-                homePageModel.LastFriendsContact = FriendList;
+                return Json(FriendList);
             }
-            return View(homePageModel);
         }
 
         [HttpPost]
         [CheckAuthorization]
         public ActionResult GetChatContent(string guid, int page)
         {
-            int numberOfMessageInOnePage = 50;
+            int numberOfMessageInOnePage = 20;
             Guid friendId = Guid.Parse(guid);
             Guid userID = (Guid)Session["UserID"];
             using (var db = new WebChatEntities())
             {
                 FriendAndChatContentModel friendInfo = new FriendAndChatContentModel();
-                var temp = db.customer.Where(s => s.app_user_id == friendId).FirstOrDefault();
-                friendInfo.App_user_id = temp.app_user_id;
-                friendInfo.Avatar = temp.avatar;
+                var userInfo = db.customers.Where(s => s.app_user_id == userID).FirstOrDefault();
+                friendInfo.AvatarCurrent = userInfo.avatar;
+                var temp = db.customers.Where(s => s.app_user_id == friendId).FirstOrDefault();
+                friendInfo.FriendId = temp.app_user_id;
+                friendInfo.AvatarFriend = temp.avatar;
                 friendInfo.Fullname = temp.fullname;
                 friendInfo.Status_online = temp.status_online;
                 friendInfo.Last_online = temp.last_online.ToString("o");
@@ -71,7 +82,7 @@ namespace WebChat.Controllers
                 || (s.cus_send_id == friendId && s.cus_receive_id == userID)).OrderByDescending(s => s.send_time)
                 .Skip(numberOfMessageInOnePage * (page - 1)).Take(numberOfMessageInOnePage).OrderBy(s => s.send_time).ToList();
                 friendInfo.Messages = new List<MessageContentModel>();
-                foreach(var message in messages)
+                foreach (var message in messages)
                 {
                     MessageContentModel messageContent = new MessageContentModel();
                     messageContent.Content = message.message1;

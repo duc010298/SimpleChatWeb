@@ -27,7 +27,7 @@ namespace WebChat.Models
     
         public virtual DbSet<app_role> app_role { get; set; }
         public virtual DbSet<app_user> app_user { get; set; }
-        public virtual DbSet<customer> customer { get; set; }
+        public virtual DbSet<customer> customers { get; set; }
         public virtual DbSet<message> messages { get; set; }
         public virtual DbSet<notify> notifies { get; set; }
         public virtual DbSet<relationship> relationships { get; set; }
