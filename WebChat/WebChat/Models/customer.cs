@@ -35,6 +35,7 @@ namespace WebChat.Models
         public System.DateTime birth { get; set; }
         public string city { get; set; }
         public string customer_description { get; set; }
+        public System.DateTimeOffset last_change_password { get; set; }
     
         public virtual app_user app_user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

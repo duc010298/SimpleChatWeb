@@ -174,6 +174,7 @@ namespace WebChat.Controllers
                     customerInfo.email = email;
                     customerInfo.gender = gender.Equals("Male") ? true : false;
                     customerInfo.birth = birth;
+                    customerInfo.last_change_password = DateTime.Now;
                     db.customers.Add(customerInfo);
                     //maybe check error here, method return 0 => no record added to database
                     db.SaveChanges();
