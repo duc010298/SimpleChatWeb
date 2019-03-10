@@ -50,7 +50,7 @@ function insert_send_message(Avatar, Content, Message_status, Send_time) {
         '<span class="msg_time">' + time + '</span>' +
         '</div>' +
         '<div class="img_cont_msg">' +
-        '<img src="UploadedFiles/Avatar/' + Avatar + '">' +
+        '<img src="/UploadedFiles/Avatar/' + Avatar + '">' +
         '</div></div>';
     $("#current-chat").append(html);
 }
@@ -61,7 +61,7 @@ function insert_receive_message(Avatar, Content, Message_status, Send_time) {
     var html =
         '<div class="d-flex justify-content-start">' +
         '<div class="img_cont_msg">' +
-        '<img src="UploadedFiles/Avatar/' + Avatar + '">' +
+        '<img src="/UploadedFiles/Avatar/' + Avatar + '">' +
         '</div>' +
         '<div class="msg_cotainer">' +
         Content +
@@ -80,7 +80,7 @@ function insert_send_message_top(Avatar, Content, Message_status, Send_time) {
         '<span class="msg_time">' + time + '</span>' +
         '</div>' +
         '<div class="img_cont_msg">' +
-        '<img src="UploadedFiles/Avatar/' + Avatar + '">' +
+        '<img src="/UploadedFiles/Avatar/' + Avatar + '">' +
         '</div></div>';
     $("#current-chat").prepend(html);
 }
@@ -91,7 +91,7 @@ function insert_receive_message_top(Avatar, Content, Message_status, Send_time) 
     var html =
         '<div class="d-flex justify-content-start">' +
         '<div class="img_cont_msg">' +
-        '<img src="UploadedFiles/Avatar/' + Avatar + '">' +
+        '<img src="/UploadedFiles/Avatar/' + Avatar + '">' +
         '</div>' +
         '<div class="msg_cotainer">' +
         Content +
@@ -102,7 +102,17 @@ function insert_receive_message_top(Avatar, Content, Message_status, Send_time) 
 }
 
 function loadChatContent() {
-    $(".current-friend-container").on('click', function () {
+    $(document).on('click', '.current-friend-container', function () {
+        var startChatFriendId = $('#start-chat').val();
+        var friendId;
+        if (startChatFriendId == null) {
+            $(".current-friend-container").removeClass('active');
+            $(this).addClass('active');
+            friendId = $(this).children('.friendId').val();
+        } else {
+            friendId = startChatFriendId;
+            $('#start-chat').remove();
+        }
         var childContent = $(this).children('.curent-friend-content');
         childContent.children('.current-friend-name').removeClass('current-friend-name-bold');
         childContent.children('.current-friend-last-message').removeClass('current-friend-last-message-bold');
@@ -111,13 +121,10 @@ function loadChatContent() {
         $('#chat-page').val('1');
         var page = $('#chat-page').val();
         $('#current-chat').html("");
-        $(".current-friend-container").removeClass('active');
-        $(this).addClass('active');
-        var friendId = $(this).children('.friendId').val();
         $('#current-friend-id').val(friendId);
         $('#spinner-container').show();
         $.ajax({
-            url: 'WebChat/GetChatContent',
+            url: location.origin + '/WebChat/GetChatContent',
             type: 'POST',
             data: {
                 guid: friendId,
@@ -156,7 +163,7 @@ function loadChatContent() {
 
 function loadCurrentFriend() {
     $.ajax({
-        url: 'WebChat/GetCurrentFriend',
+        url: location.origin + '/WebChat/GetCurrentFriend',
         type: 'POST',
     }).done(function (result) {
         result.forEach(function (entry) {
@@ -170,7 +177,6 @@ function loadCurrentFriend() {
             if (entry.IsSend) {
                 lastMessage = 'Bạn: ' + lastMessage;
             }
-            console.log(entry.MessageStatus);
             if (entry.MessageStatus === 0 || entry.MessageStatus === 1) {
                 friendName = '<div class="current-friend-name current-friend-name-bold">' + friendName + '</div>';
                 lastMessage = '<div class="current-friend-last-message current-friend-last-message-bold">' + lastMessage + '</div>';
@@ -184,7 +190,7 @@ function loadCurrentFriend() {
             var html = '<div class="current-friend-container">' +
                 '<input class="friendId" value="' + entry.FriendId + '" hidden>' +
                 '<div class="curent-friend-image">' +
-                '<img src="UploadedFiles/Avatar/' + avatar + '" alt="">';
+                '<img src="/UploadedFiles/Avatar/' + avatar + '" alt="">';
             if (entry.Status_online) {
                 html += '<span class="curent-friend-image-icon online"></span>';
             }
@@ -200,12 +206,9 @@ function loadCurrentFriend() {
             var datetimeoffset = $(this).html();
             $(this).html(datetimeoffsetToDisplay(datetimeoffset));
         });
-        loadChatContent();
         $(".current-friend-container").first().click();
     });
 }
-
-loadCurrentFriend();
 
 $('#current-chat').scroll(function () {
     var pos = $('#current-chat').scrollTop();
@@ -217,7 +220,7 @@ $('#current-chat').scroll(function () {
         page++;
         $('#chat-page').val(page);
         $.ajax({
-            url: 'WebChat/GetChatContent',
+            url: location.origin + '/WebChat/GetChatContent',
             type: 'POST',
             data: {
                 guid: friendId,
@@ -249,8 +252,11 @@ $('#current-chat').scroll(function () {
                 } else {
                     insert_receive_message_top(avatarFriend, entry.Content, entry.Message_status, entry.Send_time);
                 }
-                $("#current-chat").animate({ scrollTop: $("#scroll-to-current-pos").position().top }, 0);
             });
+            $("#current-chat").animate({ scrollTop: $("#scroll-to-current-pos").position().top }, 0);
         });
     }
 });
+
+loadCurrentFriend();
+loadChatContent();

@@ -15,7 +15,14 @@
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/Content/header.css")">
-    <link rel="stylesheet" href="@Url.Content("~/Content/index.css")">
+    @if (@ViewBag.View == "index")
+    {
+        <link rel="stylesheet" href="@Url.Content("~/Content/index.css")">
+    }
+    else if (@ViewBag.View == "friend")
+    {
+        <link rel="stylesheet" href="@Url.Content("~/Content/friend.css")">
+    }
     <title>@ViewBag.Title</title>
 </head>
 
@@ -98,7 +105,7 @@
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> Thông tin tài khoản</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#"><i class="fas fa-user-friends"></i> Bạn bè</a>
+                            <a class="dropdown-item" href="@Url.Action("ListFriend", "Friend")"><i class="fas fa-user-friends"></i> Bạn bè</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="@Url.Action("Logout", "Authentication")"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                         </div>
@@ -113,8 +120,16 @@
     <script src="@Url.Content("~/Scripts/jquery.min.js")"></script>
     <script src="@Url.Content("~/Scripts/popper.min.js")"></script>
     <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
-    <script src="@Url.Content("~/Scripts/moment.js")"></script>
-    <script src="@Url.Content("~/Scripts/main.js")"></script>
+
+    @if (@ViewBag.View == "index")
+    {
+        <script src="@Url.Content("~/Scripts/moment.js")"></script>
+        <script src="@Url.Content("~/Scripts/main.js")"></script>
+    }
+    else if (@ViewBag.View == "friend")
+    {
+        <script src="@Url.Content("~/Scripts/friend.js")"></script>
+    }
 </body>
 
 </html>

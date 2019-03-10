@@ -20,7 +20,24 @@ namespace WebChat.Controllers
                 ViewBag.Avatar = userInfo.avatar;
                 ViewBag.Fullname = userInfo.fullname;
             }
+            ViewBag.View = "index";
             return View();
+        }
+
+        [HttpGet]
+        [CheckAuthorization]
+        public ActionResult StartChat(string id)
+        {
+            Guid userID = (Guid)Session["UserID"];
+            using (var db = new WebChatEntities())
+            {
+                var userInfo = db.customers.Where(s => s.app_user_id == userID).FirstOrDefault();
+                ViewBag.Avatar = userInfo.avatar;
+                ViewBag.Fullname = userInfo.fullname;
+            }
+            ViewBag.StartChat = id;
+            ViewBag.View = "index";
+            return View("index");
         }
 
         [HttpPost]

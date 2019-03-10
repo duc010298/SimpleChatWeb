@@ -4,6 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@if (ViewBag.StartChat != null)
+{
+    <input type="text" id="start-chat" value="@ViewBag.StartChat" hidden/>
+}
 <div class="search">
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Search on WebChat">

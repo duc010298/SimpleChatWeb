@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\friend.css" />
     <Content Include="Content\header.css" />
     <Content Include="Content\index.css" />
     <Content Include="Content\loginRegister.css" />
@@ -117,6 +118,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cleave.min.js" />
+    <Content Include="Scripts\friend.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\moment.js" />
@@ -127,6 +129,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\FriendController.cs" />
     <Compile Include="Controllers\WebChatController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -143,6 +146,7 @@
       <DependentUpon>WebChatModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FriendAndChatContentModel.cs" />
+    <Compile Include="Models\FriendForListFriend.cs" />
     <Compile Include="Models\FriendModelJson.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\message.cs">
@@ -189,6 +193,7 @@
     <Content Include="Views\Authentication\Form.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\WebChat\Index.cshtml" />
+    <Content Include="Views\Friend\ListFriend.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -239,7 +244,7 @@
     </ItemGroup>
     <MakeDir Directories="$(WebProjectOutputDir)\bin\roslyn" />
     <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(WebProjectOutputDir)\bin\roslyn" SkipUnchangedFiles="true" Retries="$(CopyRetryCount)" RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)" />
-</Target>
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
