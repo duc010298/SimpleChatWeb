@@ -79,9 +79,12 @@ namespace WebChat.Controllers
                     if(lastMessage.cus_send_id.Equals(userID))
                     {
                         friend.IsSend = true;
+                        friend.MessageStatus = 2;
+                    } else
+                    {
+                        friend.MessageStatus = lastMessage.message_status;
                     }
                     friend.LastSendTime = lastMessage.send_time.ToString("o");
-                    friend.MessageStatus = lastMessage.message_status;
                     FriendList.Add(friend);
                 }
                 FriendList = FriendList.OrderByDescending(s => s.LastSendTime).ToList();

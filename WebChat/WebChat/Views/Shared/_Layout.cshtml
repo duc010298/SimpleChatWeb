@@ -23,6 +23,10 @@
     {
         <link rel="stylesheet" href="@Url.Content("~/Content/friend.css")">
     }
+    else if (ViewBag.View == "info")
+    {
+        <link rel="stylesheet" href="@Url.Content("~/Content/info.css")">
+    }
     <title>@ViewBag.Title</title>
 </head>
 
@@ -103,7 +107,7 @@
                             @ViewBag.Fullname
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> Thông tin tài khoản</a>
+                            <a class="dropdown-item" href="@Url.Action("Info", "User")"><i class="fas fa-user-circle"></i> Thông tin tài khoản</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="@Url.Action("ListFriend", "Friend")"><i class="fas fa-user-friends"></i> Bạn bè</a>
                             <div class="dropdown-divider"></div>
@@ -129,6 +133,11 @@
     else if (@ViewBag.View == "friend")
     {
         <script src="@Url.Content("~/Scripts/friend.js")"></script>
+    }
+    else if (ViewBag.View == "info")
+    {
+        <script src="@Url.Content("~/Scripts/moment.js")"></script>
+        <script src="@Url.Content("~/Scripts/info.js")"></script>
     }
 </body>
 

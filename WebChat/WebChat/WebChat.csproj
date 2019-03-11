@@ -103,6 +103,7 @@
     <Content Include="Content\friend.css" />
     <Content Include="Content\header.css" />
     <Content Include="Content\index.css" />
+    <Content Include="Content\info.css" />
     <Content Include="Content\loginRegister.css" />
     <Content Include="Global.asax" />
     <Content Include="LICENSE.txt" />
@@ -119,6 +120,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\friend.js" />
+    <Content Include="Scripts\info.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\moment.js" />
@@ -130,6 +132,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\FriendController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WebChatController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -148,6 +151,7 @@
     <Compile Include="Models\FriendAndChatContentModel.cs" />
     <Compile Include="Models\FriendForListFriend.cs" />
     <Compile Include="Models\FriendModelJson.cs" />
+    <Compile Include="Models\Info.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\message.cs">
       <DependentUpon>WebChatModel.tt</DependentUpon>
@@ -194,6 +198,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\WebChat\Index.cshtml" />
     <Content Include="Views\Friend\ListFriend.cshtml" />
+    <Content Include="Views\User\Info.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,65 @@
+﻿.user-img {
+    width: 100%;
+    text-align: center;
+}
+
+    .user-img img {
+        border-radius: 50%;
+        border: 1.5px solid #fff;
+        width: 150px;
+        height: 150px;
+    }
+
+        .user-img img:hover {
+            cursor: pointer;
+        }
+
+.user-info-title {
+    text-align: center;
+}
+
+.table-user-info {
+    background-color: #fff;
+    margin-top: 30px;
+}
+
+    .table-user-info tr {
+        height: 80px;
+    }
+
+    .table-user-info td {
+        width: 50%;
+        vertical-align: middle;
+    }
+
+        .table-user-info td:hover {
+            background-color: rgba(0, 132, 255, .2);
+            cursor: pointer;
+        }
+
+.user-info-attr {
+    float: left;
+    font-weight: bold;
+    font-size: 18px;
+    color: gray;
+}
+
+.user-info-content {
+    float: right;
+    font-size: 18px;
+}
+
+.user-info-attr-des {
+    font-weight: bold;
+    font-size: 18px;
+    color: gray;
+    margin-bottom: 15px;
+}
+
+.user-info-content-des {
+    margin-bottom: 15px;
+}
+
+#spec-input {
+    display: none;
+}
