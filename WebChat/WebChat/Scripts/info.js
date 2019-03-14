@@ -78,7 +78,122 @@ $('#avatar').on('change', function () {
 
 function eventAcceptSave() {
     $('#BtnAcceptSave').on('click', function () {
-
+        var whatChange = $('#whatChange').val();
+        switch (whatChange) {
+            case username:
+                var newUsername = $('#attr-input').val();
+                $.ajax({
+                    type: 'POST',
+                    url: location.origin + '/User/ChangeUsername',
+                    data: {
+                        newUsername: newUsername
+                    },
+                    error: function () {
+                        notify('Lỗi', 'Không thể xử lí dữ liệu');
+                    }
+                }).done(function (result) {
+                    notify('Thông báo', result);
+                    $('.btn-danger').on('click', function () {
+                        location.reload();
+                    });
+                });
+                return;
+            case fullname:
+                var newFullname = $('#attr-input').val();
+                $.ajax({
+                    type: 'POST',
+                    url: location.origin + '/User/ChangeFullname',
+                    data: {
+                        newFullname: newFullname
+                    },
+                    error: function () {
+                        notify('Lỗi', 'Không thể xử lí dữ liệu');
+                    }
+                }).done(function (result) {
+                    notify('Thông báo', result);
+                    $('.btn-danger').on('click', function () {
+                        location.reload();
+                    });
+                });
+                return;
+            case birth:
+                var newBirth = $('#attr-input').val();
+                $.ajax({
+                    type: 'POST',
+                    url: location.origin + '/User/ChangeBirth',
+                    data: {
+                        newBirth: newBirth
+                    },
+                    error: function () {
+                        notify('Lỗi', 'Không thể xử lí dữ liệu');
+                    }
+                }).done(function (result) {
+                    notify('Thông báo', result);
+                    $('.btn-danger').on('click', function () {
+                        location.reload();
+                    });
+                });
+                return;
+            case gender:
+                var newGender = $('#attr-input').val();
+                if (newGender === "Nam") {
+                    newGender = 1;
+                } else {
+                    newGender = 0;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: location.origin + '/User/ChangeGender',
+                    data: {
+                        gender: gender
+                    },
+                    error: function () {
+                        notify('Lỗi', 'Không thể xử lí dữ liệu');
+                    }
+                }).done(function (result) {
+                    notify('Thông báo', result);
+                    $('.btn-danger').on('click', function () {
+                        location.reload();
+                    });
+                });
+                return;
+            case city:
+                var newCity = $('#attr-input').val();
+                $.ajax({
+                    type: 'POST',
+                    url: location.origin + '/User/ChangeCity',
+                    data: {
+                        newCity: newCity
+                    },
+                    error: function () {
+                        notify('Lỗi', 'Không thể xử lí dữ liệu');
+                    }
+                }).done(function (result) {
+                    notify('Thông báo', result);
+                    $('.btn-danger').on('click', function () {
+                        location.reload();
+                    });
+                });
+                return;
+            case description:
+                var newDes = $('#attr-input').val();
+                $.ajax({
+                    type: 'POST',
+                    url: location.origin + '/User/ChangeDescription',
+                    data: {
+                        newDes: newDes
+                    },
+                    error: function () {
+                        notify('Lỗi', 'Không thể xử lí dữ liệu');
+                    }
+                }).done(function (result) {
+                    notify('Thông báo', result);
+                    $('.btn-danger').on('click', function () {
+                        location.reload();
+                    });
+                });
+                return;
+        }
     });
 }
 
@@ -152,7 +267,7 @@ $('#changeDescription').on('click', function () {
     //TODO change to use Textarea here
     $('#spec-input').hide();
     $('#normal-input').show();
-    $('#whatChange').val('city');
+    $('#whatChange').val('description');
     $('#modal-title').html('Thay đổi mô tả');
     $('#attr').html('Mô tả');
     $('#attr-input').attr('type', 'text');
