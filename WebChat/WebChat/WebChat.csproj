@@ -142,6 +142,7 @@
     <Content Include="Scripts\cleave.min.js" />
     <Content Include="Scripts\friend.js" />
     <Content Include="Scripts\info.js" />
+    <Content Include="Audio\message.ogg" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />

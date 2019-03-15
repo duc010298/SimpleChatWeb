@@ -6,8 +6,11 @@
 
 @if (ViewBag.StartChat != null)
 {
-    <input type="text" id="start-chat" value="@ViewBag.StartChat" hidden/>
+    <input type="text" id="start-chat" value="@ViewBag.StartChat" hidden />
 }
+<audio id="message-audio">
+    <source src="@Url.Content("~/Audio/message.ogg")" type="audio/ogg">
+</audio>
 <div class="search">
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Search on WebChat">

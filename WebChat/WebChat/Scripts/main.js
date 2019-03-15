@@ -330,5 +330,7 @@ function loadClientMethods(objHub) {
             insert_receive_message(avatar, message, messageStatus, sendTime);
             scrollChatToBottom(true);
         }
+        var messageAudio = document.getElementById("message-audio");
+        messageAudio.play();
     }
 }
