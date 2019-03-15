@@ -1,13 +1,11 @@
 ﻿// All function and code javascript and jquery here
 function scrollChatToBottom(isSlow) {
-    $('#elementToScrollTo').remove();
-    $('#current-chat').append('<span id="elementToScrollTo"></span>');
     if (isSlow) {
-        $("#current-chat").animate({ scrollTop: $("#elementToScrollTo").position().top }, 'slow')
+        $("#current-chat").animate({ scrollTop: $('#current-chat')[0].scrollHeight }, 'slow')
         return;
     }
     $('#current-chat').css("opacity", "0");
-    $.when($("#current-chat").animate({ scrollTop: $("#elementToScrollTo").position().top }, 1)).done(function () {
+    $.when($('#current-chat').scrollTop($('#current-chat')[0].scrollHeight)).done(function () {
         $('#current-chat').css("opacity", "");
     });
 }
@@ -120,6 +118,7 @@ function loadChatContent() {
         //TODO call SignalR here
         $('#chat-page').val('1');
         var page = $('#chat-page').val();
+        $('#current-chat').off('scroll');
         $('#current-chat').html("");
         $('#current-friend-id').val(friendId);
         $('#spinner-container').show();
@@ -134,7 +133,7 @@ function loadChatContent() {
             $('#spinner-container').hide();
             var avatarFriend = result.AvatarFriend;
             if (avatarFriend !== null) {
-                $('#chat-title-avatar').attr('src', avatarFriend);
+                $('#chat-title-avatar').attr('src', '/UploadedFiles/Avatar/' + avatarFriend);
             }
             var avatarCurrent = result.AvatarCurrent;
             if (avatarCurrent === null) {
@@ -157,11 +156,13 @@ function loadChatContent() {
                 }
             });
             scrollChatToBottom(false);
+            loadScrollEvent();
         });
     });
 }
 
-function loadCurrentFriend() {
+function loadCurrentFriend(isFirstClick) {
+    $('#currentf-friend').html("");
     $.ajax({
         url: location.origin + '/WebChat/GetCurrentFriend',
         type: 'POST',
@@ -206,57 +207,108 @@ function loadCurrentFriend() {
             var datetimeoffset = $(this).html();
             $(this).html(datetimeoffsetToDisplay(datetimeoffset));
         });
-        $(".current-friend-container").first().click();
+        if (isFirstClick) $(".current-friend-container").first().click();
     });
 }
 
-$('#current-chat').scroll(function () {
-    var pos = $('#current-chat').scrollTop();
-    if (pos == 0) {
-        $('#scroll-to-current-pos').remove();
-        $('<span id="scroll-to-current-pos"></span>').insertBefore('.d-flex:first');
-        var friendId = $('#current-friend-id').val();
-        var page = $('#chat-page').val();
-        page++;
-        $('#chat-page').val(page);
-        $.ajax({
-            url: location.origin + '/WebChat/GetChatContent',
-            type: 'POST',
-            data: {
-                guid: friendId,
-                page: page
-            }
-        }).done(function (result) {
-            $('#spinner-container').hide();
-            var avatarFriend = result.AvatarFriend;
-            if (avatarFriend !== null) {
-                $('#chat-title-avatar').attr('src', avatarFriend);
-            }
-            var avatarCurrent = result.AvatarCurrent;
-            if (avatarCurrent === null) {
-                avatarCurrent = 'sample_avatar.png';
-            }
-            if (result.Status_online) {
-                $('#chat-title-isOnline').show();
-                $('#chat-title-last-online').html("Online");
-            } else {
-                $('#chat-title-isOnline').hide();
-                $('#chat-title-last-online').html(datetimeoffsetToDisplay(result.Last_online));
-            }
-            $('#chat-title-name').html(result.Fullname);
-            /* --------------------------- */
-            var messages = result.Messages;
-            messages.forEach(function (entry) {
-                if (entry.IsSend) {
-                    insert_send_message_top(avatarCurrent, entry.Content, entry.Message_status, entry.Send_time);
-                } else {
-                    insert_receive_message_top(avatarFriend, entry.Content, entry.Message_status, entry.Send_time);
+function loadScrollEvent() {
+    $('#current-chat').on('scroll', function () {
+        var pos = $('#current-chat').scrollTop();
+        if (pos == 0) {
+            console.log('a');
+            $('#scroll-to-current-pos').remove();
+            $('<span id="scroll-to-current-pos"></span>').insertBefore('.d-flex:first');
+            var friendId = $('#current-friend-id').val();
+            var page = $('#chat-page').val();
+            page++;
+            $('#chat-page').val(page);
+            $.ajax({
+                url: location.origin + '/WebChat/GetChatContent',
+                type: 'POST',
+                data: {
+                    guid: friendId,
+                    page: page
                 }
+            }).done(function (result) {
+                $('#spinner-container').hide();
+                var avatarFriend = result.AvatarFriend;
+                if (avatarFriend !== null) {
+                    $('#chat-title-avatar').attr('src', '/UploadedFiles/Avatar/' + avatarFriend);
+                }
+                var avatarCurrent = result.AvatarCurrent;
+                if (avatarCurrent === null) {
+                    avatarCurrent = 'sample_avatar.png';
+                }
+                if (result.Status_online) {
+                    $('#chat-title-isOnline').show();
+                    $('#chat-title-last-online').html("Online");
+                } else {
+                    $('#chat-title-isOnline').hide();
+                    $('#chat-title-last-online').html(datetimeoffsetToDisplay(result.Last_online));
+                }
+                $('#chat-title-name').html(result.Fullname);
+                /* --------------------------- */
+                var messages = result.Messages;
+                messages.forEach(function (entry) {
+                    if (entry.IsSend) {
+                        insert_send_message_top(avatarCurrent, entry.Content, entry.Message_status, entry.Send_time);
+                    } else {
+                        insert_receive_message_top(avatarFriend, entry.Content, entry.Message_status, entry.Send_time);
+                    }
+                });
+                $("#current-chat").animate({ scrollTop: $("#scroll-to-current-pos").position().top }, 0);
             });
-            $("#current-chat").animate({ scrollTop: $("#scroll-to-current-pos").position().top }, 0);
-        });
-    }
+        }
+    });
+}
+
+
+loadCurrentFriend(true);
+loadChatContent();
+loadScrollEvent();
+
+$(function () { //This section will run whenever we call Chat.cshtml page
+    var objHub = $.connection.chatHub;
+
+    loadClientMethods(objHub);
+
+    $.connection.hub.start().done(function () {
+        loadEvents(objHub)
+    });
 });
 
-loadCurrentFriend();
-loadChatContent();
+function loadEvents(objHub) {
+    $('#send-button').click(function () {
+        var currentAvatar = $('.justify-content-end').first().children('.img_cont_msg').first().children('img').first().attr('src');
+        currentAvatar = currentAvatar.split('/')[currentAvatar.split('/').length - 1];
+        var currentFriendId = $('#current-friend-id').val();
+        var msg = $("#input-message").val().trim();
+        $("#input-message").val('');
+        if (msg.length > 0) {
+            insert_send_message(currentAvatar, msg, 2, new Date());
+            scrollChatToBottom(true);
+            objHub.server.sendMessageToUser(currentFriendId, msg);
+        }
+    });
+
+    $("#input-message").keypress(function (e) {
+        if (e.which == 13) {
+            $('#send-button').click();
+        }
+    });
+}
+
+function loadClientMethods(objHub) {
+    objHub.client.getMessages = function (userId, message) {
+        loadCurrentFriend(false);
+        var currentFriendId = $('#current-friend-id').val();
+        if (currentFriendId === userId) {
+            var avatar = $('#chat-title-avatar').attr('src');
+            avatar = avatar.split('/')[avatar.split('/').length];
+            var messageStatus = 1;
+            var sendTime = new Date();
+            insert_receive_message(avatar, message, messageStatus, sendTime);
+            scrollChatToBottom(true);
+        }
+    }
+}

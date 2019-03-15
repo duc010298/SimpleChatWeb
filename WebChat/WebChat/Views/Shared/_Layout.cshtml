@@ -1,6 +1,7 @@
 ﻿@{
     var avatar = "sample_avatar.png";
-    if (@ViewBag.Avatar != null) {
+    if (@ViewBag.Avatar != null)
+    {
         avatar = @ViewBag.Avatar;
     }
 }
@@ -127,6 +128,8 @@
 
     @if (@ViewBag.View == "index")
     {
+        <script src="@Url.Content("~/Scripts/jquery.signalR-2.4.0.min.js")"></script>
+        <script src="@Url.Content("~/signalr/hubs")"></script>
         <script src="@Url.Content("~/Scripts/moment.js")"></script>
         <script src="@Url.Content("~/Scripts/main.js")"></script>
     }
