@@ -254,26 +254,34 @@
     width: calc(100% - 450px);
 }
 
+.input-group-message {
+    border-top: 1px solid rgb(206,212,218);
+}
+
 .input-message {
     border-radius: 0;
-    border-left: none;
-    border-bottom: none;
+    border: none;
+    margin-right: 10px;
+    margin-top: 5px;
+    font-size: 15px;
 }
 
     .input-message:focus {
         outline: none !important;
         box-shadow: none;
-        border-color: rgb(206,212,218);
     }
 
-.btn-send-message {
-    width: 100px;
-    border-color: rgb(206,212,218);
-    border-radius: 0;
+.btn-input-message {
     border: none;
+    color: gray;
+    padding-right: 20px;
 }
 
-    .btn-send-message:focus {
+    .btn-input-message:hover {
+        color: #0084ff;
+    }
+
+    .btn-input-message:focus {
         outline: none !important;
         box-shadow: none;
     }

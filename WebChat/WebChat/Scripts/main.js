@@ -285,20 +285,6 @@ $(function () { //This section will run whenever we call Chat.cshtml page
 });
 
 function loadEvents(objHub) {
-    $('#send-button').click(function () {
-        var currentAvatar = $('.justify-content-end').first().children('.img_cont_msg').first().children('img').first().attr('src');
-        currentAvatar = currentAvatar.split('/')[currentAvatar.split('/').length - 1];
-        var currentFriendId = $('#current-friend-id').val();
-        var msg = $("#input-message").val().trim();
-        $("#input-message").val('');
-        if (msg.length > 0) {
-            insert_send_message(currentAvatar, msg, 2, new Date());
-            scrollChatToBottom(true);
-            objHub.server.sendMessageToUser(currentFriendId, msg);
-        }
-        setTimeout(function () { loadCurrentFriend(false); }, 1500);
-    });
-
     $('#input-message').on('click', function () {
         var currentFriendId = $('#current-friend-id').val();
         $.ajax({
@@ -313,7 +299,17 @@ function loadEvents(objHub) {
 
     $("#input-message").keypress(function (e) {
         if (e.which == 13) {
-            $('#send-button').click();
+            var currentAvatar = $('.justify-content-end').first().children('.img_cont_msg').first().children('img').first().attr('src');
+            currentAvatar = currentAvatar.split('/')[currentAvatar.split('/').length - 1];
+            var currentFriendId = $('#current-friend-id').val();
+            var msg = $("#input-message").val().trim();
+            $("#input-message").val('');
+            if (msg.length > 0) {
+                insert_send_message(currentAvatar, msg, 2, new Date());
+                scrollChatToBottom(true);
+                objHub.server.sendMessageToUser(currentFriendId, msg);
+            }
+            setTimeout(function () { loadCurrentFriend(false); }, 1500);
         }
     });
 }
