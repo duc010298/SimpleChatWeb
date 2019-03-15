@@ -11,32 +11,40 @@ function scrollChatToBottom(isSlow) {
 }
 
 function datetimeoffsetToDisplay(datetimeoffset) {
-    var start = moment(datetimeoffset);
-    var end = moment();
-    var duration = moment.duration(end.diff(start));
-    var result;
-    var time = duration.asSeconds();
-    if (time <= 60) {
-        result = Math.round(time) + ' giây';
-    } else {
-        time = duration.asMinutes();
-        if (time <= 60) {
-            result = Math.round(time) + ' phút';
-        } else {
-            time = duration.asHours();
-            if (time <= 24) {
-                result = Math.round(time) + ' giờ';
-            } else {
-                time = duration.asDays();
-                if (time <= 7) {
-                    result = Math.round(time) + ' ngày';
-                } else {
-                    result = start.format("DD-MM-YYYY");
-                }
-            }
-        }
+    var input = moment(datetimeoffset);
+    var now = moment();
+    if (input.format("DD-MM-YYYY") === now.format("DD-MM-YYYY")) {
+        return input.format("HH:mm");
     }
-    return result;
+    var duration = moment.duration(now.diff(input));
+    if (duration.asDays() < 7) {
+        var day;
+        switch (input.day()) {
+            case 0:
+                day = "Thứ Hai ";
+                break;
+            case 1:
+                day = "Thứ Ba ";
+                break;
+            case 2:
+                day = "Thứ Tư ";
+                break;
+            case 3:
+                day = "Thứ Năm ";
+                break;
+            case 4:
+                day = "Thứ Sáu ";
+                break;
+            case 5:
+                day = "Thứ Bảy ";
+                break;
+            case 6:
+                day = "Chủ Nhật ";
+                break;
+        }
+        return day + input.format("HH:mm");
+    }
+    return input.format("HH:mm") + " " + input.format("D") + " Tháng " + input.format("M") + ", " + input.format("YYYY");
 }
 
 function insert_send_message(Avatar, Content, Message_status, Send_time) {
@@ -304,7 +312,7 @@ function loadClientMethods(objHub) {
         var currentFriendId = $('#current-friend-id').val();
         if (currentFriendId === userId) {
             var avatar = $('#chat-title-avatar').attr('src');
-            avatar = avatar.split('/')[avatar.split('/').length];
+            avatar = avatar.split('/')[avatar.split('/').length - 1];
             var messageStatus = 1;
             var sendTime = new Date();
             insert_receive_message(avatar, message, messageStatus, sendTime);
