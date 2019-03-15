@@ -73,14 +73,15 @@ namespace WebChat.Controllers
                     friend.FriendName = friendInfo.fullname;
                     friend.Avatar = friendInfo.avatar;
                     friend.Status_online = friendInfo.status_online;
-                    var lastMessage = db.messages.Where(s => (s.cus_send_id == friendId && s.cus_receive_id == userID) 
+                    var lastMessage = db.messages.Where(s => (s.cus_send_id == friendId && s.cus_receive_id == userID)
                     || (s.cus_receive_id == friendId && s.cus_send_id == userID)).OrderByDescending(s => s.send_time).FirstOrDefault();
                     friend.LastMessage = lastMessage.message1;
-                    if(lastMessage.cus_send_id.Equals(userID))
+                    if (lastMessage.cus_send_id.Equals(userID))
                     {
                         friend.IsSend = true;
                         friend.MessageStatus = 2;
-                    } else
+                    }
+                    else
                     {
                         friend.MessageStatus = lastMessage.message_status;
                     }
@@ -102,8 +103,8 @@ namespace WebChat.Controllers
             using (var db = new WebChatEntities())
             {
                 //Change status
-                var listMessage = db.messages.Where(s => s.cus_send_id == friendId && (s.message_status == 0 || s.message_status == 1)).ToList();
-                foreach(var mes in listMessage)
+                var listMessage = db.messages.Where(s => s.cus_send_id == friendId && s.cus_receive_id == userID && (s.message_status == 0 || s.message_status == 1)).ToList();
+                foreach (var mes in listMessage)
                 {
                     mes.message_status = 2;
                 }
@@ -132,6 +133,23 @@ namespace WebChat.Controllers
                     friendInfo.Messages.Add(messageContent);
                 }
                 return Json(friendInfo);
+            }
+        }
+
+        [HttpPost]
+        [CheckAuthorization]
+        public void MakeAllRead(string id)
+        {
+            Guid userID = (Guid)Session["UserID"];
+            var toUserId = Guid.Parse(id);
+            using (var db = new WebChatEntities())
+            {
+                var messageList = db.messages.Where(s => s.cus_send_id == toUserId && s.cus_receive_id == userID && (s.message_status == 0 || s.message_status == 1)).ToList();
+                foreach(var message in messageList)
+                {
+                    message.message_status = 2;
+                }
+                db.SaveChanges();
             }
         }
     }

@@ -105,6 +105,14 @@ namespace WebChat.Controllers
         [HttpGet]
         public ActionResult Logout()
         {
+            Guid userID = (Guid)Session["UserID"];
+            using (var db = new WebChatEntities())
+            {
+                var user = db.customers.Where(s => s.app_user_id == userID).FirstOrDefault();
+                user.status_online = false;
+                user.last_online = DateTimeOffset.Now;
+                db.SaveChanges();
+            }
             try
             {
                 // First we clean the authentication ticket like always

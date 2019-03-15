@@ -123,7 +123,6 @@ function loadChatContent() {
         childContent.children('.current-friend-name').removeClass('current-friend-name-bold');
         childContent.children('.current-friend-last-message').removeClass('current-friend-last-message-bold');
         childContent.children('.current-friend-last-message-time').removeClass('current-friend-last-message-time-bold');
-        //TODO call SignalR here
         $('#chat-page').val('1');
         var page = $('#chat-page').val();
         $('#current-chat').off('scroll');
@@ -170,11 +169,11 @@ function loadChatContent() {
 }
 
 function loadCurrentFriend(isFirstClick) {
-    $('#currentf-friend').html("");
     $.ajax({
         url: location.origin + '/WebChat/GetCurrentFriend',
         type: 'POST',
     }).done(function (result) {
+        $('#currentf-friend').html("");
         result.forEach(function (entry) {
             var avatar = 'sample_avatar.png';
             if (entry.Avatar != null) {
@@ -297,6 +296,19 @@ function loadEvents(objHub) {
             scrollChatToBottom(true);
             objHub.server.sendMessageToUser(currentFriendId, msg);
         }
+        setTimeout(function () { loadCurrentFriend(false); }, 1500);
+    });
+
+    $('#input-message').on('click', function () {
+        var currentFriendId = $('#current-friend-id').val();
+        $.ajax({
+            type: "POST",
+            url: location.origin + '/WebChat/MakeAllRead',
+            data: {
+                id: currentFriendId
+            },
+        });
+        loadCurrentFriend(false);
     });
 
     $("#input-message").keypress(function (e) {

@@ -10,16 +10,6 @@ namespace WebChat.SignalR
 {
     public class ChatHub : Hub
     {
-        public void Connect()
-        {
-            System.Diagnostics.Debug.WriteLine("Connected");
-            var user = Context.User;
-            System.Diagnostics.Debug.WriteLine(user);
-            System.Diagnostics.Debug.WriteLine(user.Identity.IsAuthenticated);
-            System.Diagnostics.Debug.WriteLine(user.Identity.Name);
-            System.Diagnostics.Debug.WriteLine("a");
-        }
-
         public void SendMessageToUser(string toUserId, string message)
         {
             var currentUser = Context.User;
@@ -32,8 +22,44 @@ namespace WebChat.SignalR
                 toUsername = user.username;
                 user = db.app_user.Where(s => s.username == currentUser.Identity.Name).FirstOrDefault();
                 currentUserId = user.app_user_id.ToString();
+                message mes = new message
+                {
+                    id = Guid.NewGuid(),
+                    cus_send_id = user.app_user_id,
+                    cus_receive_id = id,
+                    message1 = message,
+                    message_status = 1,
+                    send_time = DateTimeOffset.Now
+                };
+                db.messages.Add(mes);
+                db.SaveChanges();
             }
-            Clients.All.getMessages(currentUserId, message);
+            Clients.User(toUsername).getMessages(currentUserId, message);
+        }
+
+        public override Task OnConnected()
+        {
+            var currentUser = Context.User;
+            using (var db = new WebChatEntities())
+            {
+                var user = db.app_user.Where(s => s.username == currentUser.Identity.Name).FirstOrDefault();
+                user.customer.status_online = true;
+                db.SaveChanges();
+            }
+            return base.OnDisconnected(true);
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            var currentUser = Context.User;
+            using (var db = new WebChatEntities())
+            {
+                var user = db.app_user.Where(s => s.username == currentUser.Identity.Name).FirstOrDefault();
+                user.customer.status_online = false;
+                user.customer.last_online = DateTimeOffset.Now;
+                db.SaveChanges();
+            }
+            return base.OnDisconnected(true);
         }
     }
 }
