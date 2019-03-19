@@ -274,6 +274,99 @@ loadCurrentFriend(true);
 loadChatContent();
 loadScrollEvent();
 
+$('#input-search').on('focus', function () {
+    $('.current-friend-last-message').hide();
+    $('.current-friend-last-message-time').hide();
+    $('.current-friend .online').hide();
+    $('.current-friend').css('top', '149px');
+    $('.curent-friend-image').css('width', '28px');
+    $('.curent-friend-image').css('height', '28px');
+    $('.curent-friend-image img').css('width', '28px');
+    $('.curent-friend-image img').css('height', '28px');
+    $('.search-with').show();
+});
+
+$('#input-search').on('focusout', function () {
+    setTimeout(function () {
+        $('.current-friend-last-message').show();
+        $('.current-friend-last-message-time').show();
+        $('.current-friend .online').show();
+        $('.current-friend').css('top', '115px');
+        $('.curent-friend-image').css('width', '60px');
+        $('.curent-friend-image').css('height', '60px');
+        $('.curent-friend-image img').css('width', '57px');
+        $('.curent-friend-image img').css('height', '57px');
+        $('.search-with').hide();
+        loadCurrentFriend(false);
+    }, 100);
+});
+
+var timeoutInput = null;
+$('#input-search').on('keydown', function (e) {
+    clearTimeout(timeoutInput);
+    timeoutInput = setTimeout(function () {
+        var input = $('#input-search').val();
+        $('#search-with').html('Tìm kiếm tin nhắn cho "' + input + '"');
+        $.ajax({
+            url: location.origin + '/WebChat/GetCurrentFriendSearch',
+            type: 'POST',
+            data: {
+                input: input
+            }
+        }).done(function (result) {
+            $('#currentf-friend').html("");
+            result.forEach(function (entry) {
+                var avatar = 'sample_avatar.png';
+                if (entry.Avatar != null) {
+                    avatar = entry.Avatar;
+                }
+                var friendName = entry.FriendName;
+                var lastMessage = entry.LastMessage;
+                var lastSendTime = entry.LastSendTime;
+                if (entry.IsSend) {
+                    lastMessage = 'Bạn: ' + lastMessage;
+                }
+                if (entry.MessageStatus === 0 || entry.MessageStatus === 1) {
+                    friendName = '<div class="current-friend-name current-friend-name-bold">' + friendName + '</div>';
+                    lastMessage = '<div class="current-friend-last-message current-friend-last-message-bold">' + lastMessage + '</div>';
+                    lastSendTime = '<div class="current-friend-last-message-time current-friend-last-message-time-bold">' + lastSendTime + '</div>';
+                } else {
+                    friendName = '<div class="current-friend-name">' + friendName + '</div>';
+                    lastMessage = '<div class="current-friend-last-message">' + lastMessage + '</div>';
+                    lastSendTime = '<div class="current-friend-last-message-time">' + lastSendTime + '</div>';
+                }
+
+                var html = '<div class="current-friend-container">' +
+                    '<input class="friendId" value="' + entry.FriendId + '" hidden>' +
+                    '<div class="curent-friend-image">' +
+                    '<img src="/UploadedFiles/Avatar/' + avatar + '" alt="">';
+                if (entry.Status_online) {
+                    html += '<span class="curent-friend-image-icon online"></span>';
+                }
+                html += '</div>' +
+                    '<div class="curent-friend-content">' +
+                    friendName +
+                    lastMessage +
+                    lastSendTime +
+                    '</div></div>';
+                $('#currentf-friend').append(html);
+            });
+            $(".current-friend-last-message-time").each(function () {
+                var datetimeoffset = $(this).html();
+                $(this).html(datetimeoffsetToDisplay(datetimeoffset));
+            });
+            $('.current-friend-last-message').hide();
+            $('.current-friend-last-message-time').hide();
+            $('.current-friend .online').hide();
+            $('.current-friend').css('top', '149px');
+            $('.curent-friend-image').css('width', '28px');
+            $('.curent-friend-image').css('height', '28px');
+            $('.curent-friend-image img').css('width', '28px');
+            $('.curent-friend-image img').css('height', '28px');
+        });
+    }, 500);
+});
+
 $(function () { //This section will run whenever we call Chat.cshtml page
     var objHub = $.connection.chatHub;
 

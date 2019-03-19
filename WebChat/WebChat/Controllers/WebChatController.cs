@@ -152,5 +152,49 @@ namespace WebChat.Controllers
                 db.SaveChanges();
             }
         }
+
+        [HttpPost]
+        [CheckAuthorization]
+        public ActionResult GetCurrentFriendSearch(string input)
+        {
+            Guid userID = (Guid)Session["UserID"];
+            using (var db = new WebChatEntities())
+            {
+                List<Guid> lastUserContact = new List<Guid>();
+                var listUserId = db.customers.Where(s => s.fullname.Contains(input)).ToList();
+                foreach(var userId in listUserId)
+                {
+                    var temp = db.messages.Where(s => (s.cus_send_id == userID && s.cus_receive_id == userId.app_user_id) 
+                    || (s.cus_receive_id == userID && s.cus_send_id == userId.app_user_id)).FirstOrDefault();
+                    if (temp != null) lastUserContact.Add(userId.app_user_id);
+                }
+                List<FriendModelJson> FriendList = new List<FriendModelJson>();
+                foreach (var friendId in lastUserContact)
+                {
+                    FriendModelJson friend = new FriendModelJson();
+                    friend.FriendId = friendId.ToString();
+                    var friendInfo = db.customers.Where(s => s.app_user_id == friendId).FirstOrDefault();
+                    friend.FriendName = friendInfo.fullname;
+                    friend.Avatar = friendInfo.avatar;
+                    friend.Status_online = friendInfo.status_online;
+                    var lastMessage = db.messages.Where(s => (s.cus_send_id == friendId && s.cus_receive_id == userID)
+                    || (s.cus_receive_id == friendId && s.cus_send_id == userID)).OrderByDescending(s => s.send_time).FirstOrDefault();
+                    friend.LastMessage = lastMessage.message1;
+                    if (lastMessage.cus_send_id.Equals(userID))
+                    {
+                        friend.IsSend = true;
+                        friend.MessageStatus = 2;
+                    }
+                    else
+                    {
+                        friend.MessageStatus = lastMessage.message_status;
+                    }
+                    friend.LastSendTime = lastMessage.send_time.ToString("o");
+                    FriendList.Add(friend);
+                }
+                FriendList = FriendList.OrderByDescending(s => s.LastSendTime).ToList();
+                return Json(FriendList);
+            }
+        }
     }
 }
