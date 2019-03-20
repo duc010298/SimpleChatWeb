@@ -61,7 +61,7 @@ namespace WebChat.Controllers
                     if (userInfo != null)
                     {
                         string encrypt_password = userInfo.encrypted_password;
-                        isLogin = BCrypt.Net.BCrypt.Verify(entity.Login.Password, encrypt_password);
+                        isLogin = BCrypt.Net.BCrypt.Verify(entity.Login.Password.Trim().ToLower(), encrypt_password);
                     }
                     else
                     {
