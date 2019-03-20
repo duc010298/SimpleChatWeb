@@ -28,6 +28,10 @@
     {
         <link rel="stylesheet" href="@Url.Content("~/Content/info.css")">
     }
+    else if (ViewBag.View == "findfriend")
+    {
+        <link rel="stylesheet" href="@Url.Content("~/Content/findfriend.css")">
+    }
     <title>@ViewBag.Title</title>
 </head>
 
@@ -40,7 +44,7 @@
             </button>
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav ml-auto">
-                    <li><a href="" class="nav-link"><i class="fas fa-user-plus"></i> Thêm bạn bè</a></li>
+                    <li><a href="@Url.Action("FindFriend", "FindFriend")" class="nav-link"><i class="fas fa-user-plus"></i> Thêm bạn bè</a></li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                             <i class="fas fa-bell"></i> Thông báo <b>(3)</b>
@@ -141,6 +145,10 @@
     {
         <script src="@Url.Content("~/Scripts/moment.js")"></script>
         <script src="@Url.Content("~/Scripts/info.js")"></script>
+    }
+    else if (ViewBag.View == "findfriend")
+    {
+        <script src="@Url.Content("~/Scripts/findfriend.js")"></script>
     }
 </body>
 

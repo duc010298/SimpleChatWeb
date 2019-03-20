@@ -30,6 +30,12 @@ namespace WebChat
                 "Friend/{action}",
                 defaults: new { controller = "Friend", action = "ListAll" }
             );
+
+            routes.MapRoute(
+                "FindFriend",
+                "FindFriend/{action}",
+                defaults: new { controller = "FindFriend", action = "FindFriend" }
+            );
         }
     }
 }

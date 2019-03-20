@@ -12,6 +12,7 @@
     var gender = Model.Gender ? "Nam" : "Nữ";
     var city = Model.City == null ? "Thêm thành phố đang sống" : Model.City;
     var shortDescription = Model.ShortDescription == null ? "Thêm mô tả ngắn" : Model.ShortDescription;
+    var phone = Model.Phone == null ? "Thêm số điện thoại" : Model.Phone;
 }
 <div class="modal fade" id="notifyModal">
     <div class="modal-dialog">
@@ -76,6 +77,16 @@
                     <td id="changePassword">
                         <div class="user-info-attr">Mật khẩu</div>
                         <div class="user-info-content" id="password">@Model.LastChangePassword.ToString("o")</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="changeEmail">
+                        <div class="user-info-attr">Email</div>
+                        <div class="user-info-content">@Model.Email</div>
+                    </td>
+                    <td id="changePhone">
+                        <div class="user-info-attr">Điện thoại</div>
+                        <div class="user-info-content">@phone</div>
                     </td>
                 </tr>
                 <tr>
