@@ -193,6 +193,42 @@ function eventAcceptSave() {
                     });
                 });
                 return;
+            case email:
+                var newEmail = $('#attr-input').val();
+                $.ajax({
+                    type: 'POST',
+                    url: location.origin + '/User/ChangeEmail',
+                    data: {
+                        newEmail: newEmail
+                    },
+                    error: function () {
+                        notify('Lỗi', 'Không thể xử lí dữ liệu');
+                    }
+                }).done(function (result) {
+                    notify('Thông báo', result);
+                    $('.btn-danger').on('click', function () {
+                        location.reload();
+                    });
+                });
+                return;
+            case phone:
+                var newPhone = $('#attr-input').val();
+                $.ajax({
+                    type: 'POST',
+                    url: location.origin + '/User/ChangePhone',
+                    data: {
+                        newPhone: newPhone
+                    },
+                    error: function () {
+                        notify('Lỗi', 'Không thể xử lí dữ liệu');
+                    }
+                }).done(function (result) {
+                    notify('Thông báo', result);
+                    $('.btn-danger').on('click', function () {
+                        location.reload();
+                    });
+                });
+                return;
         }
     });
 }
@@ -244,6 +280,34 @@ $('#changeGender').on('click', function () {
     $('#spec-input').show();
     $('#whatChange').val('gender');
     $('#modal-title').html('Thay đổi giới tính');
+    $("#acceptSaveNotify").modal({ backdrop: "static" });
+    $('#BtnAcceptSave').off('click');
+    eventAcceptSave();
+});
+
+$('#changeEmail').on('click', function () {
+    $('#spec-input').hide();
+    $('#normal-input').show();
+    $('#whatChange').val('email');
+    $('#modal-title').html('Thay đổi Email');
+    $('#attr').html('Email:');
+    $('#attr-input').attr('type', 'text');
+    $('#attr-input').attr('placeholder', 'Nhập email mới');
+    $('#attr-input').val("");
+    $("#acceptSaveNotify").modal({ backdrop: "static" });
+    $('#BtnAcceptSave').off('click');
+    eventAcceptSave();
+});
+
+$('#changePhone').on('click', function () {
+    $('#spec-input').hide();
+    $('#normal-input').show();
+    $('#whatChange').val('phone');
+    $('#modal-title').html('Thay đổi số điện thoại');
+    $('#attr').html('Số điện thoại:');
+    $('#attr-input').attr('type', 'text');
+    $('#attr-input').attr('placeholder', 'Nhập số điện thoại mới');
+    $('#attr-input').val("");
     $("#acceptSaveNotify").modal({ backdrop: "static" });
     $('#BtnAcceptSave').off('click');
     eventAcceptSave();

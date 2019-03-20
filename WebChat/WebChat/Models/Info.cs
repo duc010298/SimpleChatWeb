@@ -11,6 +11,8 @@ namespace WebChat.Models
         public string Avatar { get; set; }
         public string Username { get; set; }
         public DateTimeOffset LastChangePassword { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
         public string Fullname { get; set; }
         public DateTime Birth { get; set; }
         public bool Gender { get; set; }

@@ -27,6 +27,8 @@ namespace WebChat.Controllers
                 info.Avatar = userInfo.avatar;
                 info.Username = userInfo.app_user.username;
                 info.LastChangePassword = userInfo.last_change_password;
+                info.Email = userInfo.email;
+                info.Phone = userInfo.phone;
                 info.Fullname = userInfo.fullname;
                 info.Birth = userInfo.birth;
                 info.Gender = userInfo.gender;
