@@ -298,6 +298,7 @@ $('#input-search').on('focusout', function () {
         $('.curent-friend-image img').css('height', '57px');
         $('.search-with').hide();
         loadCurrentFriend(false);
+        $('#input-search').val('');
     }, 100);
 });
 
