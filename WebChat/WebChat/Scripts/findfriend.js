@@ -33,13 +33,13 @@
                 '<input type="text" class="Phone" value="' + entry.Phone + '" hidden />' +
                 '<img src="/UploadedFiles/Avatar/' + avatar + '" alt="">' +
                 '<h4>' + entry.Name + '</h4>' +
-                '<button type="button" class="btn btn-sm btn-primary">' + status + '</button>' +
+                '<button type="button" class="btn btn-sm btn-primary action">' + status + '</button>' +
                 '</div><hr>';
             $('#list-friend-container').append(html);
         });
         $('#input-search').val('');
-        $('.friend-container').off('click');
         eventClick();
+        eventAction();
     });
 });
 
@@ -50,6 +50,7 @@ $('#input-search').on('keypress', function (e) {
 });
 
 function eventClick() {
+    $('.friend-container').off('click');
     $('.friend-container').on('click', function () {
         var avatar = $(this).children('img').attr('src');
         $('#right-content-avatar').attr('src', avatar);
@@ -72,5 +73,13 @@ function eventClick() {
         if (phone == 'null') phone = 'Không có';
         $('#right-content-phone').html(phone);
         $('#right-content').show();
+    });
+}
+
+
+function eventAction() {
+    $('.action').off('click');
+    $('.action').on('click', function () {
+        $(this).parent('.friend-container').children('.Id').val();
     });
 }
