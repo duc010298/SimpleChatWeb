@@ -107,6 +107,66 @@ function insert_receive_message_top(Avatar, Content, Message_status, Send_time) 
     $("#current-chat").prepend(html);
 }
 
+function insert_send_message_img(Avatar, Content, Message_status, Send_time) {
+    var time = datetimeoffsetToDisplay(Send_time);
+    var html =
+        '<div class="d-flex justify-content-end">' +
+        '<div class="msg_cotainer">' +
+        '<img src="/UploadedFiles/Image/' + Content + '">' +
+        '<span class="msg_time">' + time + '</span>' +
+        '</div>' +
+        '<div class="img_cont_msg">' +
+        '<img src="/UploadedFiles/Avatar/' + Avatar + '">' +
+        '</div></div>';
+    $("#current-chat").append(html);
+}
+
+function insert_receive_message_img(Avatar, Content, Message_status, Send_time) {
+    var time = datetimeoffsetToDisplay(Send_time);
+    if (Avatar == null) Avatar = 'sample_avatar.png';
+    var html =
+        '<div class="d-flex justify-content-start">' +
+        '<div class="img_cont_msg">' +
+        '<img src="/UploadedFiles/Avatar/' + Avatar + '">' +
+        '</div>' +
+        '<div class="msg_cotainer">' +
+        '<img src="/UploadedFiles/Image/' + Content + '">' +
+        '<span class="msg_time">' + time + '</span>' +
+        '</div>' +
+        '</div>';
+    $("#current-chat").append(html);
+}
+
+function insert_send_message_file(Avatar, Content, Message_status, Send_time) {
+    var time = datetimeoffsetToDisplay(Send_time);
+    var html =
+        '<div class="d-flex justify-content-end">' +
+        '<div class="msg_cotainer">' +
+        '<a href="/WebChat/DownloadFile?fileName=' + Content + '">' + '<i class="fas fa-download"></i> ' + Content + '</a>' +
+        '<span class="msg_time">' + time + '</span>' +
+        '</div>' +
+        '<div class="img_cont_msg">' +
+        '<img src="/UploadedFiles/Avatar/' + Avatar + '">' +
+        '</div></div>';
+    $("#current-chat").append(html);
+}
+
+function insert_receive_message_file(Avatar, Content, Message_status, Send_time) {
+    var time = datetimeoffsetToDisplay(Send_time);
+    if (Avatar == null) Avatar = 'sample_avatar.png';
+    var html =
+        '<div class="d-flex justify-content-start">' +
+        '<div class="img_cont_msg">' +
+        '<img src="/UploadedFiles/Avatar/' + Avatar + '">' +
+        '</div>' +
+        '<div class="msg_cotainer">' +
+        '<a href="/WebChat/DownloadFile?fileName=' + Content + '">' + '<i class="fas fa-download"></i> ' + Content + '</a>' +
+        '<span class="msg_time">' + time + '</span>' +
+        '</div>' +
+        '</div>';
+    $("#current-chat").append(html);
+}
+
 function loadChatContent() {
     $(document).on('click', '.current-friend-container', function () {
         var startChatFriendId = $('#start-chat').val();
@@ -423,4 +483,97 @@ function loadClientMethods(objHub) {
         var messageAudio = document.getElementById("message-audio");
         messageAudio.play();
     }
+
+    objHub.client.getMessagesImage = function (userId, message) {
+        loadCurrentFriend(false);
+        var currentFriendId = $('#current-friend-id').val();
+        if (currentFriendId === userId) {
+            var avatar = $('#chat-title-avatar').attr('src');
+            avatar = avatar.split('/')[avatar.split('/').length - 1];
+            var messageStatus = 1;
+            var sendTime = new Date();
+            insert_receive_message_img(avatar, message, messageStatus, sendTime);
+            scrollChatToBottom(true);
+        }
+        var messageAudio = document.getElementById("message-audio");
+        messageAudio.play();
+    }
+
+    objHub.client.getMessagesFile = function (userId, message) {
+        loadCurrentFriend(false);
+        var currentFriendId = $('#current-friend-id').val();
+        if (currentFriendId === userId) {
+            var avatar = $('#chat-title-avatar').attr('src');
+            avatar = avatar.split('/')[avatar.split('/').length - 1];
+            var messageStatus = 1;
+            var sendTime = new Date();
+            insert_receive_message_file(avatar, message, messageStatus, sendTime);
+            scrollChatToBottom(true);
+        }
+        var messageAudio = document.getElementById("message-audio");
+        messageAudio.play();
+    }
 }
+
+$('#send-button-image').on('click', function () {
+    $('#input-send-img').trigger('click');
+});
+
+
+$('#input-send-img').on('change', function () {
+    var currentFriendId = $('#current-friend-id').val();
+    var file_data = $('#input-send-img').prop('files')[0];
+    if (file_data.size > 10000000) {
+        alert("File quá lớn");
+        return;
+    }
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    $.ajax({
+        url: location.origin + '/WebChat/SendImageMessage/' + currentFriendId,
+        type: 'POST',
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data
+    }).done(function (result) {
+        var currentAvatar = $('.justify-content-end').first().children('.img_cont_msg').first().children('img').first().attr('src');
+        currentAvatar = currentAvatar.split('/')[currentAvatar.split('/').length - 1];
+        insert_send_message_img(currentAvatar, result, 1, new Date());
+        scrollChatToBottom(true);
+        $('#input-send-img').val('');
+    });
+});
+
+$('#send-button-file').on('click', function () {
+    $('#input-send-file').trigger('click');
+});
+
+
+$('#input-send-file').on('change', function () {
+    var currentFriendId = $('#current-friend-id').val();
+    var file_data = $('#input-send-file').prop('files')[0];
+    if (file_data.size > 10000000) {
+        alert("File quá lớn");
+        return;
+    }
+    var form_data = new FormData();
+    form_data.append('file', file_data);
+    $.ajax({
+        url: location.origin + '/WebChat/SendFileMessage/' + currentFriendId,
+        type: 'POST',
+        dataType: 'text',
+        cache: false,
+        contentType: false,
+        processData: false,
+        data: form_data
+    }).done(function (result) {
+        console.log(result);
+        var currentAvatar = $('.justify-content-end').first().children('.img_cont_msg').first().children('img').first().attr('src');
+        currentAvatar = currentAvatar.split('/')[currentAvatar.split('/').length - 1];
+        insert_send_message_file(currentAvatar, result, 1, new Date());
+        scrollChatToBottom(true);
+        $('#input-send-file').val('');
+    });
+});

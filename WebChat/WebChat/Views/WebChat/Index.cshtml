@@ -34,9 +34,11 @@
     <div class="input-group input-group-message">
         <input type="text" class="form-control form-control-lg input-message" placeholder="Nhập tin nhắn..." id="input-message">
         <div class="input-group-append">
-            <button class="btn btn-lg btn-input-message" type="button" id="send-button"><i class="fas fa-images"></i></button>
-            <button class="btn btn-lg btn-input-message" type="button" id="send-button"><i class="fas fa-microphone"></i></button>
-            <button class="btn btn-lg btn-input-message" type="button" id="send-button"><i class="fas fa-paperclip"></i></button>
+            <input type="file" id="input-send-img" name="input-send-img" accept=".jpg,.png,.bmp" hidden />
+            <button class="btn btn-lg btn-input-message" type="button" id="send-button-image"><i class="fas fa-images"></i></button>
+            @*<button class="btn btn-lg btn-input-message" type="button" id="send-button"><i class="fas fa-microphone"></i></button>*@
+            <input type="file" id="input-send-file" name="input-send-file" hidden />
+            <button class="btn btn-lg btn-input-message" type="button" id="send-button-file"><i class="fas fa-paperclip"></i></button>
         </div>
     </div>
 </div>

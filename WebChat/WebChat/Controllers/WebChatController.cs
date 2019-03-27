@@ -1,9 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNet.SignalR;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebChat.Models;
+using WebChat.SignalR;
 
 namespace WebChat.Controllers
 {
@@ -195,6 +201,109 @@ namespace WebChat.Controllers
                 FriendList = FriendList.OrderByDescending(s => s.LastSendTime).ToList();
                 return Json(FriendList);
             }
+        }
+
+        [HttpPost]
+        [CheckAuthorization]
+        public string SendImageMessage(HttpPostedFileBase file, string id)
+        {
+            Guid userID = (Guid)Session["UserID"];
+            if (file != null && file.ContentLength > 0 && IsImage(file))
+            {
+                string directory = Server.MapPath("~/UploadedFiles/Image");
+                string imageName = Guid.NewGuid().ToString().Replace("-", "") + ".png";
+                string path = System.IO.Path.Combine(directory, imageName);
+
+                using (Image image = Image.FromStream(file.InputStream, true, false))
+                {
+                    try
+                    {
+                        var thumbnailBitmap = new Bitmap(image.Width, image.Height);
+                        var thumbnailGraph = Graphics.FromImage(thumbnailBitmap);
+                        thumbnailGraph.CompositingQuality = CompositingQuality.HighQuality;
+                        thumbnailGraph.SmoothingMode = SmoothingMode.HighQuality;
+                        thumbnailGraph.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        var imageRectangle = new Rectangle(0, 0, image.Width, image.Height);
+                        thumbnailGraph.DrawImage(image, imageRectangle);
+                        var ms = new MemoryStream();
+                        thumbnailBitmap.Save(path, ImageFormat.Png);
+                        ms.Position = 0;
+                        GC.Collect();
+                        thumbnailGraph.Dispose();
+                        thumbnailBitmap.Dispose();
+                        image.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+                Guid toUserId = Guid.Parse(id);
+                string toUsername;
+                using (var db = new WebChatEntities())
+                {
+                    var user = db.app_user.Where(s => s.app_user_id == toUserId).FirstOrDefault();
+                    toUsername = user.username;
+                }
+                var hubContext = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                hubContext.Clients.User(toUsername).getMessagesImage(userID, imageName);
+                return imageName;
+            }
+            else
+            {
+                return "Xin hãy chọn file ảnh";
+            }
+        }
+
+        [HttpPost]
+        [CheckAuthorization]
+        public string SendFileMessage(HttpPostedFileBase file, string id)
+        {
+            Guid userID = (Guid)Session["UserID"];
+            if (file != null && file.ContentLength > 0)
+            {
+                string directory = Server.MapPath("~/UploadedFiles/File");
+                string fileName = file.FileName;
+                string path = System.IO.Path.Combine(directory, fileName);
+
+                file.SaveAs(path);
+
+                Guid toUserId = Guid.Parse(id);
+                string toUsername;
+                using (var db = new WebChatEntities())
+                {
+                    var user = db.app_user.Where(s => s.app_user_id == toUserId).FirstOrDefault();
+                    toUsername = user.username;
+                }
+                var hubContext = GlobalHost.ConnectionManager.GetHubContext<ChatHub>();
+                hubContext.Clients.User(toUsername).getMessagesFile(userID, fileName);
+                return fileName;
+            }
+            else
+            {
+                return "Xin hãy chọn file";
+            }
+        }
+
+        [HttpGet]
+        [CheckAuthorization]
+        public ActionResult DownloadFile(string fileName)
+        {
+            string directory = Server.MapPath("~/UploadedFiles/File");
+            string path = System.IO.Path.Combine(directory, fileName);
+            byte[] fileBytes = System.IO.File.ReadAllBytes(path);
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        }
+
+        [NonAction]
+        private bool IsImage(HttpPostedFileBase file)
+        {
+            if (file.ContentType.Contains("image"))
+            {
+                return true;
+            }
+            string[] formats = new string[] { ".jpg", ".png", ".bmp" };
+            return formats.Any(item => file.FileName.EndsWith(item, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
