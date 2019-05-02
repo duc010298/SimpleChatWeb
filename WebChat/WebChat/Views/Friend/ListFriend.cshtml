@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Danh sách bạn bè";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="jumbotron custom-jumbotron">
+        <div class="row">
+            <div class="col-5 col-sm-5 col-md-5 col-lg-5">
+                <input id="input-search" type="text" class="form-control" placeholder="Tìm kiếm trong danh sách bạn bè">
+            </div>
+            <div class="find-new-friend-btn col-7 col-sm-7 col-md-7 col-lg-7">
+                <a href="@Url.Action("FindFriend", "FindFriend")" class="btn btn-info">Thêm bạn bè <i class="fas fa-user-plus"></i></a>
+            </div>
+        </div>
+        <hr>
+        <input type="text" id="page" value="0" hidden />
+        <div class="row" id="friend"></div>
+    </div>
+</div>
+

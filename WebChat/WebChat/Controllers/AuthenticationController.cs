@@ -61,7 +61,7 @@ namespace WebChat.Controllers
                     if (userInfo != null)
                     {
                         string encrypt_password = userInfo.encrypted_password;
-                        isLogin = BCrypt.Net.BCrypt.Verify(entity.Login.Password, encrypt_password);
+                        isLogin = BCrypt.Net.BCrypt.Verify(entity.Login.Password.Trim().ToLower(), encrypt_password);
                     }
                     else
                     {
@@ -105,6 +105,14 @@ namespace WebChat.Controllers
         [HttpGet]
         public ActionResult Logout()
         {
+            Guid userID = (Guid)Session["UserID"];
+            using (var db = new WebChatEntities())
+            {
+                var user = db.customers.Where(s => s.app_user_id == userID).FirstOrDefault();
+                user.status_online = false;
+                user.last_online = DateTimeOffset.Now;
+                db.SaveChanges();
+            }
             try
             {
                 // First we clean the authentication ticket like always
@@ -174,6 +182,7 @@ namespace WebChat.Controllers
                     customerInfo.email = email;
                     customerInfo.gender = gender.Equals("Male") ? true : false;
                     customerInfo.birth = birth;
+                    customerInfo.last_change_password = DateTime.Now;
                     db.customers.Add(customerInfo);
                     //maybe check error here, method return 0 => no record added to database
                     db.SaveChanges();

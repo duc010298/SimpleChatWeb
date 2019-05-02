@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WebChatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WebChatModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="app_role">
           <Key>
             <PropertyRef Name="role_id" />
@@ -35,6 +35,7 @@
           <Property Name="birth" Type="date" Nullable="false" />
           <Property Name="city" Type="nvarchar" MaxLength="200" />
           <Property Name="customer_description" Type="nvarchar(max)" />
+          <Property Name="last_change_password" Type="datetimeoffset" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="message">
           <Key>
@@ -221,8 +222,7 @@
             <End Role="user_role" EntitySet="user_role" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WebChatModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -265,6 +265,7 @@
           <NavigationProperty Name="notifies" Relationship="Self.FK__notify__cus_id__2B3F6F97" FromRole="customer" ToRole="notify" />
           <NavigationProperty Name="relationships" Relationship="Self.FK__relations__cus1___1DE57479" FromRole="customer" ToRole="relationship" />
           <NavigationProperty Name="relationships1" Relationship="Self.FK__relations__cus2___1ED998B2" FromRole="customer" ToRole="relationship" />
+          <Property Name="last_change_password" Type="DateTimeOffset" Nullable="false" Precision="7" />
         </EntityType>
         <EntityType Name="message">
           <Key>
@@ -449,6 +450,7 @@
           <EntitySetMapping Name="customers">
             <EntityTypeMapping TypeName="WebChatModel.customer">
               <MappingFragment StoreEntitySet="customer">
+                <ScalarProperty Name="last_change_password" ColumnName="last_change_password" />
                 <ScalarProperty Name="app_user_id" ColumnName="app_user_id" />
                 <ScalarProperty Name="avatar" ColumnName="avatar" />
                 <ScalarProperty Name="fullname" ColumnName="fullname" />

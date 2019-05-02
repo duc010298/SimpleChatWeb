@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Tìm kiếm bạn bè";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="jumbotron">
+        <div class="row row-custom">
+            <div class="col-4 col-md-4 col-sm-4 col-xs-4 border-container-left">
+                <div class="input-group">
+                    <input id="input-search" type="text" class="form-control" placeholder="Tìm kiếm bạn bè">
+                    <div class="input-group-append">
+                        <button id="btn-search" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+                <hr>
+                <div id="list-friend-container"></div>
+            </div>
+            <div class="col-8 col-md-8 col-sm-8 col-xs-8 border-container-right">
+                <div id="right-content" class="right-content">
+                    <img id="right-content-avatar" src="" alt="">
+                    <h1 id="right-content-name">Đỗ Trung Đức</h1>
+                    <table class="table table-bordered table-user-info">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-info-attr">Họ và tên</div>
+                                    <div id="right-content-name-2" class="user-info-content"></div>
+                                </td>
+                                <td>
+                                    <div class="user-info-attr">Ngày sinh</div>
+                                    <div id="right-content-birth" class="user-info-content"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-attr">Email</div>
+                                    <div id="right-content-email" class="user-info-content"></div>
+                                </td>
+                                <td>
+                                    <div class="user-info-attr">Phone</div>
+                                    <div id="right-content-phone" class="user-info-content"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-info-attr">Giới tính</div>
+                                    <div id="right-content-gender" class="user-info-content"></div>
+                                </td>
+                                <td>
+                                    <div class="user-info-attr">Thành phố</div>
+                                    <div id="right-content-city" class="user-info-content"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="short-description" colspan="2">
+                                    <div class="user-info-attr-des">Mô tả ngắn</div>
+                                    <div id="right-content-des" class="user-info-content-des"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

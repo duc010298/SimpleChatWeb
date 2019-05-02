@@ -21,8 +21,20 @@ namespace WebChat
 
             routes.MapRoute(
                 "Authentication",
-                "Authentication/{action}/{id}",
-                defaults: new { controller = "Authentication", action = "Form", id = UrlParameter.Optional }
+                "Authentication/{action}",
+                defaults: new { controller = "Authentication", action = "Form" }
+            );
+
+            routes.MapRoute(
+                "Friend",
+                "Friend/{action}",
+                defaults: new { controller = "Friend", action = "ListAll" }
+            );
+
+            routes.MapRoute(
+                "FindFriend",
+                "FindFriend/{action}",
+                defaults: new { controller = "FindFriend", action = "FindFriend" }
             );
         }
     }

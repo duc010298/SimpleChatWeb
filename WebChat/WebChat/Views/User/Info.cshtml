@@ -1,0 +1,122 @@
+﻿@model WebChat.Models.Info
+@{
+    ViewBag.Title = "Thông tin tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var avatar = "sample_avatar.png";
+    if (Model.Avatar != null)
+    {
+        avatar = Model.Avatar;
+    }
+    var gender = Model.Gender ? "Nam" : "Nữ";
+    var city = Model.City == null ? "Thêm thành phố đang sống" : Model.City;
+    var shortDescription = Model.ShortDescription == null ? "Thêm mô tả ngắn" : Model.ShortDescription;
+    var phone = Model.Phone == null ? "Thêm số điện thoại" : Model.Phone;
+}
+<div class="modal fade" id="notifyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">...</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">...</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="acceptSaveNotify">
+    <input type="text" id="whatChange" value="" hidden/>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title">...</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" id="normal-input">
+                    <label for="attr-input" id="attr">...</label>
+                    <input type="text" class="form-control" id="attr-input">
+                </div>
+                <div class="form-group" id="spec-input">
+                    <label for="gender">Giới tính:</label>
+                    <select class="form-control" id="gender">
+                        <option>Nam</option>
+                        <option>Nữ</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-modal btn btn-danger" data-dismiss="modal">Đóng</button>
+                <button id="BtnAcceptSave" type="button" class="btn-modal btn btn-primary" data-dismiss="modal">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="jumbotron">
+        <div class="user-img">
+            <input type="file" id="avatar" name="avatar" accept=".jpg,.png,.bmp" hidden/>
+            <img src="@Url.Content("~/UploadedFiles/Avatar/" + avatar)" alt="" data-toggle="tooltip" data-placement="right" title="Thay đổi ảnh đại diện" id="uploadAvatar">
+        </div>
+        <div class="user-info-title">
+            <h1>Thông tin cá nhân</h1>
+        </div>
+        <div class="user-info-title">
+            <h4>Thông tin cơ bản, như tên và ảnh của bạn, mà bạn sử dụng trên Web Chat</h4>
+        </div>
+        <table class="table table-bordered table-user-info">
+            <tbody>
+                <tr>
+                    <td id="changeUsername">
+                        <div class="user-info-attr">Tên đăng nhập</div>
+                        <div class="user-info-content">@Model.Username</div>
+                    </td>
+                    <td id="changePassword">
+                        <div class="user-info-attr">Mật khẩu</div>
+                        <div class="user-info-content" id="password">@Model.LastChangePassword.ToString("o")</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="changeEmail">
+                        <div class="user-info-attr">Email</div>
+                        <div class="user-info-content">@Model.Email</div>
+                    </td>
+                    <td id="changePhone">
+                        <div class="user-info-attr">Điện thoại</div>
+                        <div class="user-info-content">@phone</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="changeFullName">
+                        <div class="user-info-attr">Họ và tên</div>
+                        <div class="user-info-content">@Model.Fullname</div>
+                    </td>
+                    <td id="changeDateOfBirth">
+                        <div class="user-info-attr">Ngày sinh</div>
+                        <div class="user-info-content">@Model.Birth.ToString("d/M/yyyy")</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="changeGender">
+                        <div class="user-info-attr">Giới tính</div>
+                        <div class="user-info-content">@gender</div>
+                    </td>
+                    <td id="changeCity">
+                        <div class="user-info-attr">Thành phố</div>
+                        <div class="user-info-content">@city</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="short-description" colspan="2" id="changeDescription">
+                        <div class="user-info-attr-des">Mô tả ngắn</div>
+                        <div class="user-info-content-des">@shortDescription</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

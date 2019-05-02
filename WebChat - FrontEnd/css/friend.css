@@ -1,0 +1,32 @@
+main {
+    margin-top: 56px;
+}
+
+.custom-jumbotron {
+    padding-top: 20px;
+}
+
+.find-new-friend-btn {
+    text-align: right;
+}
+
+.friend-container {
+    margin: 20px 5px;
+    background-color: #fff;
+    border: 1px solid rgba(0,0,0,.2);
+}
+
+.friend-container>div {
+    padding: 10px;
+}
+
+.friend-container img {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+}
+
+.friend-content {
+    margin-top: 5px;
+    margin-left: 20px;
+}

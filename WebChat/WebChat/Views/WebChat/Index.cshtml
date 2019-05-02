@@ -1,18 +1,44 @@
 ﻿
 @{
-    Layout = null;
+    ViewBag.Title = "WebChat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
-    <div> 
-        This is is index page
+@if (ViewBag.StartChat != null)
+{
+    <input type="text" id="start-chat" value="@ViewBag.StartChat" hidden />
+}
+<audio id="message-audio">
+    <source src="@Url.Content("~/Audio/message.ogg")" type="audio/ogg">
+</audio>
+<div class="search">
+    <input id="input-search" type="text" class="form-control search-on-webchat" placeholder="Tìm kiếm trên WebChat">
+</div>
+<div class="chat-title">
+    <div class="chat-title-image">
+        <img src="@Url.Content("~/UploadedFiles/Avatar/sample_avatar.png")" id="chat-title-avatar" alt="">
+        <span class="chat-title-image-icon online" id="chat-title-isOnline"></span>
     </div>
-</body>
-</html>
+    <div class="chat-title-content">
+        <h4 id="chat-title-name">User</h4>
+        <div class="chat-title-time" id="chat-title-last-online">0 giờ</div>
+    </div>
+</div>
+<div id="search-with" class="search-with"></div>
+<div class="current-friend" id="currentf-friend"></div>
+<div id="spinner-container" class="spinner"></div>
+<input type="text" id="chat-page" value="1" hidden />
+<input type="text" id="current-friend-id" value="null" hidden />
+<div class="current-chat" id="current-chat"></div>
+<div class="send-message">
+    <div class="input-group input-group-message">
+        <input type="text" class="form-control form-control-lg input-message" placeholder="Nhập tin nhắn..." id="input-message">
+        <div class="input-group-append">
+            <input type="file" id="input-send-img" name="input-send-img" accept=".jpg,.png,.bmp" hidden />
+            <button class="btn btn-lg btn-input-message" type="button" id="send-button-image"><i class="fas fa-images"></i></button>
+            @*<button class="btn btn-lg btn-input-message" type="button" id="send-button"><i class="fas fa-microphone"></i></button>*@
+            <input type="file" id="input-send-file" name="input-send-file" hidden />
+            <button class="btn btn-lg btn-input-message" type="button" id="send-button-file"><i class="fas fa-paperclip"></i></button>
+        </div>
+    </div>
+</div>
